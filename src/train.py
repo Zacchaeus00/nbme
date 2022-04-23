@@ -1,5 +1,5 @@
 import pandas as pd
-from transformers import AutoTokenizer
+from transformers import AutoTokenizer, AutoModelForTokenClassification
 
 from data_utils import NBMEDataset
 

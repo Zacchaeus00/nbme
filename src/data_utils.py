@@ -57,4 +57,4 @@ class NBMEDataset(Dataset):
                              self.pn_historys[item],
                              self.annotation_lengths[item],
                              self.locations[item])
-        return inputs, label
+        return {**inputs, 'label': label}

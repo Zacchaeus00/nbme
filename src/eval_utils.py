@@ -116,3 +116,8 @@ def get_predictions(results):
                 prediction.append([start, end])
         predictions.append(prediction)
     return predictions
+
+
+def get_score(y_true, y_pred):
+    score = span_micro_f1(y_true, y_pred)
+    return score
