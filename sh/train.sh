@@ -4,11 +4,11 @@
 #SBATCH --ntasks=1                  
 #SBATCH --cpus-per-task=8           
 #SBATCH --mem=16GB                  
-#SBATCH --time=24:00:00             
+#SBATCH --time=167:00:00
 #SBATCH --mail-type=END             
 #SBATCH --mail-user=yw3642@nyu.edu  
-#SBATCH --output=%x-%A.out         
-#SBATCH --error=%x-%A.err          
+#SBATCH --output=log/%x-%A.out
+#SBATCH --error=log/%x-%A.err
 #SBATCH --gres=gpu:1                
 #SBATCH -p aquila                   
 #SBATCH --nodelist=agpu7            
