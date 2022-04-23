@@ -1,5 +1,6 @@
 .DS_Store
 ckpt/
+data/
 
 .idea/
 # Byte-compiled / optimized / DLL files
