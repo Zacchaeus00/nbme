@@ -38,7 +38,7 @@ def create_label(tokenizer, text, annotation_length, location_list):
     return torch.tensor(label, dtype=torch.float)
 
 
-class TrainDataset(Dataset):
+class NBMEDataset(Dataset):
     def __init__(self, tokenizer, df):
         self.tokenizer = tokenizer
         self.feature_texts = df['feature_text'].values
