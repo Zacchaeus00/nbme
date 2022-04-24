@@ -30,5 +30,10 @@ def save_json(obj, path):
 
 def get_tokenizer(checkpoint):
     if 'deberta-v3' in checkpoint:
-        return DebertaV2Tokenizer.from_pretrained(checkpoint)
+        from transformers import DebertaV2TokenizerFast
+        return DebertaV2TokenizerFast.from_pretrained(checkpoint)
     return AutoTokenizer.from_pretrained(checkpoint)
+
+if __name__ == "__main__":
+    tok = get_tokenizer('microsoft/deberta-v3-large')
+    tok(['i am a student'], return_offsets_mapping=True)

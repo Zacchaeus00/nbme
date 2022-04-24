@@ -1,5 +1,5 @@
 pandas==1.4.2
-transformers
+git+https://github.com/huggingface/transformers.git
 numpy
 torch
 scikit-learn
