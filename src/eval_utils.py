@@ -82,7 +82,7 @@ def create_labels_for_scoring(df):
     return truths
 
 
-def get_char_probs(texts, predictions, tokenizer):
+def get_char_logits(texts, predictions, tokenizer):
     results = [np.zeros(len(t)) for t in texts]
     for i, (text, prediction) in enumerate(zip(texts, predictions)):
         encoded = tokenizer(text,
@@ -95,9 +95,9 @@ def get_char_probs(texts, predictions, tokenizer):
     return results
 
 
-def get_results(char_probs, th=0.5):
+def get_results(char_logits, th=0):
     results = []
-    for char_prob in char_probs:
+    for char_prob in char_logits:
         result = np.where(char_prob >= th)[0] + 1
         result = [list(g) for _, g in itertools.groupby(result, key=lambda n, c=itertools.count(): n - next(c))]
         result = [f"{min(r)} {max(r)}" for r in result]

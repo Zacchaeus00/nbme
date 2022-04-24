@@ -26,7 +26,7 @@ class NBMEModel(nn.Module):
             module.bias.data.zero_()
             module.weight.data.fill_(1.0)
 
-    def forward(self, inputs):
+    def forward(self, **inputs):
         outputs = self.backbone(**{k: v for k, v in inputs.items() if k != 'labels'})
         sequence_output = outputs[0]
         logits = self.classifier(self.dropout(sequence_output))
@@ -54,7 +54,8 @@ if __name__ == '__main__':
     dataset = NBMEDataset(tokenizer, df)
     collator = DataCollatorForTokenClassification(tokenizer)
     batch = collator.torch_call([dataset[i] for i in range(16)])
+    print(list(batch.keys()))
     model = NBMEModel('microsoft/deberta-base')
-    output = model(batch)
-    print(output.logits.shape)
-    print(output.loss)
+    output = model(**batch)
+    # print(output.logits.shape)
+    # print(output.loss)
