@@ -14,7 +14,7 @@ from transformers import DataCollatorForTokenClassification
 
 from data_utils import NBMEDataset
 from model_utils import NBMEModel
-from eval_utils import get_char_logits, get_results, get_predictions, get_score, create_labels_for_scoring
+from eval_utils import get_char_logits, get_results, get_predictions, get_score, create_labels_for_scoring, compute_metrics
 from arguments import parse_args
 from utils import seed_everything, get_time, save_json
 
@@ -44,7 +44,8 @@ for fold in range(5):
         report_to='wandb',
         dataloader_num_workers=4,
         group_by_length=True,
-        run_name=name
+        run_name=name,
+        metric_for_best_model="pearson",
     )
     model = NBMEModel(cfg.pretrained_checkpoint)
     trainer = Trainer(
@@ -54,6 +55,7 @@ for fold in range(5):
         eval_dataset=NBMEDataset(tokenizer, val_df),
         tokenizer=tokenizer,
         data_collator=DataCollatorForTokenClassification(tokenizer),
+        compute_metrics=compute_metrics
     )
     trainer.train()
     predictions = trainer.predict(NBMEDataset(tokenizer, val_df)).predictions  # [n, maxlen, 1]

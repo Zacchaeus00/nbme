@@ -121,3 +121,20 @@ def get_predictions(results):
 def get_score(y_true, y_pred):
     score = span_micro_f1(y_true, y_pred)
     return score
+
+def compute_metrics(eval_pred):
+    logits, labels = eval_pred
+    logits = logits.reshape(logits.shape[0], -1)
+    assert logits.shape == labels.shape
+    assert len(logits.shape) == 2
+    predictions = (logits > 0).astype(int)
+    predictions_masked = []
+    labels_masked = []
+    for i in range(logits.shape[0]):
+        for j in range(logits.shape[1]):
+            if labels[i][j] != -100:
+                predictions_masked.append(predictions[i][j])
+                labels_masked.append(labels[i][j])
+    return {
+        'nbme_f1': f1_score(labels_masked, predictions_masked)
+    }
