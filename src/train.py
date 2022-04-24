@@ -33,9 +33,9 @@ args = TrainingArguments(
     weight_decay=cfg.weight_decay,
     load_best_model_at_end=True,
     warmup_ratio=0.2,
-    fp16=True,
+    # fp16=True,
     report_to='wandb',
-    dataloader_num_workers=4,
+    # dataloader_num_workers=4,
     group_by_length=True,
     run_name=name
 )
@@ -47,4 +47,7 @@ trainer = Trainer(
     tokenizer=tokenizer,
     data_collator=DataCollatorForTokenClassification(tokenizer),
 )
-trainer.train()
+# trainer.train()
+preds = trainer.predict(NBMEDataset(tokenizer, val_df[:10])).predictions # [n, maxlen, 2]
+preds = preds[:, :, 1]
+print(preds.shape)
