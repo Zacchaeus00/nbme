@@ -17,7 +17,7 @@ from data_utils import NBMEDataset
 from model_utils import NBMEModel
 from eval_utils import get_char_logits, get_results, get_predictions, get_score, create_labels_for_scoring, compute_metrics
 from arguments import parse_args
-from utils import seed_everything, get_time, save_json, get_tokenizer
+from utils import seed_everything, get_time, save_json, get_tokenizer, save_pickle
 
 timenow = get_time()
 cfg = parse_args()
@@ -28,6 +28,7 @@ print(timenow)
 print(vars(cfg))
 
 scores = []
+oof_preds = {}
 for fold in range(5):
     train_df = df[df['fold'] != fold].reset_index(drop=True)
     val_df = df[df['fold'] == fold].reset_index(drop=True)
@@ -66,6 +67,7 @@ for fold in range(5):
     predictions = trainer.predict(NBMEDataset(tokenizer, val_df)).predictions  # [n, maxlen, 1]
     predictions = predictions.reshape(len(val_df), -1)
     char_logits = get_char_logits(val_df['pn_history'].values, predictions, tokenizer)
+    oof_preds.update({k: v for k, v in zip(val_df['id'], char_logits)})
     results = get_results(char_logits)
     preds = get_predictions(results)
     scores.append(get_score(create_labels_for_scoring(val_df), preds))
@@ -79,3 +81,4 @@ for fold in range(5):
 # save hyp
 print(f'cv score: {np.mean(scores)}')
 save_json({**vars(cfg), 'score': np.mean(scores)}, f"../ckpt/{timenow}/config.json")
+save_pickle(oof_preds, f"../ckpt/{timenow}/oof.pkl")

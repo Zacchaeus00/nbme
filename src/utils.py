@@ -1,4 +1,5 @@
 import os
+import pickle
 import random
 
 import numpy as np
@@ -27,6 +28,9 @@ def save_json(obj, path):
     with open(path, 'w') as f:
         json.dump(obj, f)
 
+def save_pickle(obj, path):
+    with open(path, 'wb') as f:
+        pickle.dump(obj, f)
 
 def get_tokenizer(checkpoint):
     if 'deberta-v3' in checkpoint:
