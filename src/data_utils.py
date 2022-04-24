@@ -7,13 +7,13 @@ def prepare_input(tokenizer, text, feature_text):
     inputs = tokenizer(text, feature_text,
                        add_special_tokens=True,
                        return_offsets_mapping=False)
-    for k, v in inputs.items():
-        inputs[k] = torch.tensor(v, dtype=torch.long)
+    # for k, v in inputs.items():
+    #     inputs[k] = torch.tensor(v, dtype=torch.long)
     return inputs
 
 
-def create_label(tokenizer, text, annotation_length, location_list):
-    encoded = tokenizer(text,
+def create_label(tokenizer, text, feature_text, annotation_length, location_list):
+    encoded = tokenizer(text, feature_text,
                         add_special_tokens=True,
                         return_offsets_mapping=True)
     offset_mapping = encoded['offset_mapping']
@@ -35,6 +35,7 @@ def create_label(tokenizer, text, annotation_length, location_list):
                     start_idx = end_idx
                 if (start_idx != -1) & (end_idx != -1):
                     label[start_idx:end_idx] = 1
+    return label
     return torch.tensor(label, dtype=torch.float)
 
 
@@ -55,6 +56,7 @@ class NBMEDataset(Dataset):
                                self.feature_texts[item])
         label = create_label(self.tokenizer,
                              self.pn_historys[item],
+                             self.feature_texts[item],
                              self.annotation_lengths[item],
                              self.locations[item])
         return {**inputs, 'label': label}
@@ -68,10 +70,18 @@ if __name__ == '__main__':
     df = pd.read_pickle('../data/train_processed.pkl')
     dataset = NBMEDataset(tokenizer, df)
     # print(dataset[0])
-    print(tokenizer.pad([dataset[0], dataset[1]], padding=True, return_tensors='pt'))
+    features = [dataset[i] for i in range(16)]
+    label_name = "label" if "label" in features[0].keys() else "labels"
+    labels = [feature[label_name] for feature in features] if label_name in features[0].keys() else None
+    # print(tokenizer.pad([dataset[0], dataset[1]], padding=True, return_tensors='pt'))
     # print(tokenizer.decode(dataset[0]['input_ids']))
     # lengs = []
     # for d in dataset:
     #     lengs.append(len(d['input_ids']))
     # print(np.mean(lengs), np.max(lengs), np.min(lengs)) # 229.59685314685314 417 53
-    print(list(dataset[0].keys()))
+    # for i in range(16):
+    #     print(len(dataset[i]['input_ids']), len(dataset[i]['label']))
+        # print(dataset[i])
+    padded = tokenizer.pad(features, padding=True)
+    for k, v in padded.items():
+        print(k, v.shape)
