@@ -1,6 +1,7 @@
 import os
 import pickle
 import random
+import uuid
 
 import numpy as np
 import torch
@@ -22,7 +23,8 @@ def seed_everything(seed=42):
 def get_time():
     timenow = str(datetime.datetime.now()).split('.')[0]
     timenow = '-'.join(timenow.split())
-    return timenow
+    uid = str(uuid.uuid4())[:4]
+    return timenow + '-' + uid
 
 
 def save_json(obj, path):
