@@ -11,6 +11,7 @@ import torch
 from transformers import AutoTokenizer
 from transformers import TrainingArguments, Trainer
 from transformers import DataCollatorForTokenClassification
+from pathlib import Path
 
 from data_utils import NBMEDataset
 from model_utils import NBMEModel
@@ -69,6 +70,7 @@ for fold in range(5):
     print(f'fold {fold} score: {scores[-1]}')
 
     # save ckpt
+    Path(f"../ckpt/{timenow}/").mkdir(parents=True, exist_ok=True)
     torch.save(model.state_dict(), f"../ckpt/{timenow}/{fold}.pt")
     shutil.rmtree(f"../ckpt/{name}")
 
