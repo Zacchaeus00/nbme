@@ -26,7 +26,8 @@ args = TrainingArguments(
         load_best_model_at_end=True,
         fp16=True,
         report_to='none',
-        dataloader_num_workers=4
+        dataloader_num_workers=4,
+        group_by_length=True
 )
 trainer = Trainer(
         AutoModelForTokenClassification.from_pretrained(cfg.pretrained_checkpoint, num_labels=2),
