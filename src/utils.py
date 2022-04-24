@@ -4,7 +4,7 @@ import random
 import numpy as np
 import torch
 import datetime
-
+import json
 
 def seed_everything(seed=42):
     random.seed(seed)
@@ -20,3 +20,8 @@ def get_time():
     timenow = str(datetime.datetime.now()).split('.')[0]
     timenow = '-'.join(timenow.split())
     return timenow
+
+
+def save_json(obj, path):
+    with open(path, 'w') as f:
+        json.dump(obj, path)
