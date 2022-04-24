@@ -24,6 +24,8 @@ cfg = parse_args()
 seed_everything(cfg.seed)
 df = pd.read_pickle(cfg.data_path)
 tokenizer = get_tokenizer(cfg.pretrained_checkpoint)
+print(timenow)
+print(vars(cfg))
 
 scores = []
 for fold in range(5):
