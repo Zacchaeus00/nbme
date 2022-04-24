@@ -35,5 +35,6 @@ def get_tokenizer(checkpoint):
     return AutoTokenizer.from_pretrained(checkpoint)
 
 if __name__ == "__main__":
-    tok = get_tokenizer('microsoft/deberta-v3-large')
+    # tok = get_tokenizer('microsoft/deberta-v3-large')
+    tok = get_tokenizer('roberta-large')
     tok(['i am a student'], return_offsets_mapping=True)
