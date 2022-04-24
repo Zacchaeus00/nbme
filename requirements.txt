@@ -3,3 +3,4 @@ transformers
 numpy
 torch
 scikit-learn
+sentencepiece

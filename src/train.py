@@ -9,7 +9,7 @@ os.environ["WANDB_PROJECT"] = "nbme"
 import numpy as np
 import pandas as pd
 import torch
-from transformers import PreTrainedTokenizerFast
+from transformers import AutoTokenizer
 from transformers import TrainingArguments, Trainer
 from transformers import DataCollatorForTokenClassification
 from pathlib import Path
@@ -24,7 +24,7 @@ timenow = get_time()
 cfg = parse_args()
 seed_everything(cfg.seed)
 df = pd.read_pickle(cfg.data_path)
-tokenizer = PreTrainedTokenizerFast.from_pretrained(cfg.pretrained_checkpoint)
+tokenizer = AutoTokenizer.from_pretrained(cfg.pretrained_checkpoint)
 
 scores = []
 for fold in range(5):
