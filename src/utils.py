@@ -25,7 +25,7 @@ def get_time():
 
 def save_json(obj, path):
     with open(path, 'w') as f:
-        json.dump(obj, path)
+        json.dump(obj, f)
 
 
 def get_tokenizer(checkpoint):
