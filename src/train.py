@@ -45,7 +45,7 @@ for fold in range(5):
         dataloader_num_workers=4,
         group_by_length=True,
         run_name=name,
-        metric_for_best_model="pearson",
+        metric_for_best_model="nbme_f1",
         save_total_limit=2,
     )
     model = NBMEModel(cfg.pretrained_checkpoint)
