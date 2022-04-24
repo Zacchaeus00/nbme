@@ -58,3 +58,13 @@ class NBMEDataset(Dataset):
                              self.annotation_lengths[item],
                              self.locations[item])
         return {**inputs, 'label': label}
+
+if __name__ == '__main__':
+    import pandas as pd
+    from transformers import AutoTokenizer
+
+    tokenizer = AutoTokenizer.from_pretrained('microsoft/deberta-base')
+    df = pd.read_pickle('../data/train_processed.pkl')
+    dataset = NBMEDataset(tokenizer, df)
+    # print(dataset[0])
+    print(tokenizer.pad([dataset[0], dataset[1]], padding=True))

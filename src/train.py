@@ -1,6 +1,7 @@
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from transformers import TrainingArguments, Trainer
+from transformers import DataCollatorForTokenClassification
 
 from data_utils import NBMEDataset
 from arguments import parse_args
@@ -29,6 +30,7 @@ args = TrainingArguments(
         report_to='none',
         dataloader_num_workers=4
 )
+data_collator = DataCollatorForTokenClassification(tokenizer)
 model = AutoModelForTokenClassification.from_pretrained(cfg.pretrained_checkpoint, num_labels=2)
 trainer = Trainer(
         model,
@@ -36,6 +38,7 @@ trainer = Trainer(
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
         tokenizer=tokenizer,
+        data_collator=data_collator,
         # compute_metrics=compute_metrics
 )
 trainer.train()

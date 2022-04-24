@@ -2,6 +2,7 @@
 ckpt/
 data/
 log/
+foo.ipynb
 
 .idea/
 # Byte-compiled / optimized / DLL files
