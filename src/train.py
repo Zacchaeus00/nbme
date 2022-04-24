@@ -2,6 +2,8 @@ import pandas as pd
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 from transformers import TrainingArguments, Trainer
 from transformers import DataCollatorForTokenClassification
+import os
+os.environ['TOKENIZERS_PARALLELISM='] = False
 
 from data_utils import NBMEDataset
 from arguments import parse_args
