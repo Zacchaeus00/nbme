@@ -13,8 +13,6 @@ df = pd.read_pickle(cfg.data_path)
 train_df = df[df['fold'] != fold].reset_index(drop=True)
 val_df = df[df['fold'] == fold].reset_index(drop=True)
 tokenizer = AutoTokenizer.from_pretrained(cfg.pretrained_checkpoint)
-train_dataset = NBMEDataset(tokenizer, train_df)
-val_dataset = NBMEDataset(tokenizer, val_df)
 seed_everything(cfg.seed)
 args = TrainingArguments(
         output_dir=f"./ckpt",
@@ -30,14 +28,12 @@ args = TrainingArguments(
         report_to='none',
         dataloader_num_workers=4
 )
-data_collator = DataCollatorForTokenClassification(tokenizer)
-model = AutoModelForTokenClassification.from_pretrained(cfg.pretrained_checkpoint, num_labels=2)
 trainer = Trainer(
-        model,
+        AutoModelForTokenClassification.from_pretrained(cfg.pretrained_checkpoint, num_labels=2),
         args,
-        train_dataset=train_dataset,
-        eval_dataset=val_dataset,
+        train_dataset=NBMEDataset(tokenizer, train_df),
+        eval_dataset=NBMEDataset(tokenizer, val_df),
         tokenizer=tokenizer,
-        data_collator=data_collator,
+        data_collator=DataCollatorForTokenClassification(tokenizer),
 )
 trainer.train()

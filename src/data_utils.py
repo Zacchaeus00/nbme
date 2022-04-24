@@ -56,7 +56,7 @@ class NBMEDataset(Dataset):
                              self.feature_texts[item],
                              self.annotation_lengths[item],
                              self.locations[item])
-        return {**inputs, 'label': label}
+        return {**inputs, 'labels': label}
 
 if __name__ == '__main__':
     import pandas as pd
