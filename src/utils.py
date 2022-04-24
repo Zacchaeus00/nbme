@@ -5,6 +5,7 @@ import numpy as np
 import torch
 import datetime
 import json
+from transformers import AutoTokenizer, DebertaV2Tokenizer
 
 def seed_everything(seed=42):
     random.seed(seed)
@@ -25,3 +26,9 @@ def get_time():
 def save_json(obj, path):
     with open(path, 'w') as f:
         json.dump(obj, path)
+
+
+def get_tokenizer(checkpoint):
+    if 'deberta-v3' in checkpoint:
+        return DebertaV2Tokenizer.from_pretrained(checkpoint)
+    return AutoTokenizer.from_pretrained(checkpoint)
