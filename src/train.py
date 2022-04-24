@@ -2,6 +2,7 @@ import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["WANDB_PROJECT"] = "nbme"
 os.environ["WANDB_ENTITY"] = "zacchaeus"
+os.environ["WANDB_MODE"] = "offline"
 
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForTokenClassification
@@ -32,9 +33,9 @@ args = TrainingArguments(
     weight_decay=cfg.weight_decay,
     load_best_model_at_end=True,
     warmup_ratio=0.2,
-    # fp16=True,
+    fp16=True,
     report_to='wandb',
-    # dataloader_num_workers=4,
+    dataloader_num_workers=4,
     group_by_length=True,
     run_name=name
 )
