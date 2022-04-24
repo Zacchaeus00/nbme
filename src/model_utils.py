@@ -27,14 +27,14 @@ class NBMEModel(nn.Module):
             module.weight.data.fill_(1.0)
 
     def forward(self, **inputs):
-        outputs = self.backbone(**{k: v for k, v in inputs.items() if k != 'labels'})
+        outputs = self.backbone(**{k: v for k, v in inputs.items() if k != 'label'})
         sequence_output = outputs[0]
         logits = self.classifier(self.dropout(sequence_output))
         loss = None
-        if 'labels' in inputs:
+        if 'label' in inputs:
             loss_fct = nn.BCEWithLogitsLoss(reduction="none")
-            loss = loss_fct(logits.view(-1, 1), inputs['labels'].view(-1, 1).float())
-            loss = torch.masked_select(loss, inputs['labels'].view(-1, 1) != -100).mean()
+            loss = loss_fct(logits.view(-1, 1), inputs['label'].view(-1, 1).float())
+            loss = torch.masked_select(loss, inputs['label'].view(-1, 1) != -100).mean()
 
         return TokenClassifierOutput(
             loss=loss,

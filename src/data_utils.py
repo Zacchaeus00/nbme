@@ -1,6 +1,7 @@
 import torch
 from torch.utils.data import Dataset
 import numpy as np
+from transformers import DataCollatorForTokenClassification
 
 
 def prepare_input(tokenizer, text, feature_text):
@@ -56,11 +57,12 @@ class NBMEDataset(Dataset):
                              self.feature_texts[item],
                              self.annotation_lengths[item],
                              self.locations[item])
-        return {**inputs, 'labels': label}
+        return {**inputs, 'label': label}
+
 
 if __name__ == '__main__':
     import pandas as pd
-    from transformers import AutoTokenizer
+    from transformers import AutoTokenizer, DataCollatorForTokenClassification
     import numpy as np
 
     tokenizer = AutoTokenizer.from_pretrained('microsoft/deberta-base')
