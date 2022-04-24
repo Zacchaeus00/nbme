@@ -1,7 +1,7 @@
 import os
 import shutil
 
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["TOKENIZERS_PARALLELISM"] = "true"
 os.environ["WANDB_ENTITY"] = "zacchaeus"
 os.environ["WANDB_MODE"] = "offline"
 os.environ["WANDB_PROJECT"] = "nbme"
