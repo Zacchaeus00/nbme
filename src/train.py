@@ -31,8 +31,8 @@ for fold in range(5):
     name = f"{timenow}_fold{fold}"
     args = TrainingArguments(
         output_dir=f"../ckpt/{name}",
-        evaluation_strategy="epoch",
-        save_strategy="epoch",
+        evaluation_strategy="step",
+        save_strategy="step",
         learning_rate=cfg.lr,
         per_device_train_batch_size=cfg.batch_size,
         per_device_eval_batch_size=cfg.batch_size,
@@ -46,6 +46,7 @@ for fold in range(5):
         group_by_length=True,
         run_name=name,
         metric_for_best_model="pearson",
+        save_total_limit=2,
     )
     model = NBMEModel(cfg.pretrained_checkpoint)
     trainer = Trainer(
