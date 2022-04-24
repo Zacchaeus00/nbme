@@ -4,7 +4,7 @@ import argparse
 def parse_args():
     parser = argparse.ArgumentParser(description='')
     arg = parser.add_argument
-    arg('--pretrained_checkpoint', type=str, default='microsoft/deberta-base')
+    arg('--pretrained_checkpoint', type=str, default='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-base')
     arg('--data_path', type=str, default='../data/train_processed.pkl')
     arg('--epochs', type=int, default=5)
     arg('--batch_size', type=int, default=16)
