@@ -31,8 +31,8 @@ for fold in range(5):
     name = f"{timenow}_fold{fold}"
     args = TrainingArguments(
         output_dir=f"../ckpt/{name}",
-        evaluation_strategy="step",
-        save_strategy="step",
+        evaluation_strategy="steps",
+        save_strategy="steps",
         learning_rate=cfg.lr,
         per_device_train_batch_size=cfg.batch_size,
         per_device_eval_batch_size=cfg.batch_size,
