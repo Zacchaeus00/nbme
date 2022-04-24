@@ -1,4 +1,3 @@
-import numpy as np
 import torch
 from torch.utils.data import Dataset
 
@@ -19,7 +18,7 @@ def create_label(tokenizer, text, annotation_length, location_list):
     offset_mapping = encoded['offset_mapping']
     ignore_idxes = np.where(np.array(encoded.sequence_ids()) != 0)[0]
     label = np.zeros(len(offset_mapping))
-    label[ignore_idxes] = -1
+    label[ignore_idxes] = -100
     if annotation_length != 0:
         for location in location_list:
             for loc in [s.split() for s in location.split(';')]:
@@ -62,9 +61,16 @@ class NBMEDataset(Dataset):
 if __name__ == '__main__':
     import pandas as pd
     from transformers import AutoTokenizer
+    import numpy as np
 
     tokenizer = AutoTokenizer.from_pretrained('microsoft/deberta-base')
     df = pd.read_pickle('../data/train_processed.pkl')
     dataset = NBMEDataset(tokenizer, df)
     # print(dataset[0])
-    print(tokenizer.pad([dataset[0], dataset[1]], padding=True))
+    print(tokenizer.pad([dataset[0], dataset[1]], padding=True, return_tensors='pt'))
+    # print(tokenizer.decode(dataset[0]['input_ids']))
+    # lengs = []
+    # for d in dataset:
+    #     lengs.append(len(d['input_ids']))
+    # print(np.mean(lengs), np.max(lengs), np.min(lengs)) # 229.59685314685314 417 53
+    print(list(dataset[0].keys()))
