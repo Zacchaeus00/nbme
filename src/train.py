@@ -4,6 +4,7 @@ import shutil
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["WANDB_ENTITY"] = "zacchaeus"
 os.environ["WANDB_MODE"] = "offline"
+os.environ["WANDB_PROJECT"] = "nbme"
 
 import numpy as np
 import pandas as pd
