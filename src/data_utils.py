@@ -7,8 +7,6 @@ def prepare_input(tokenizer, text, feature_text):
     inputs = tokenizer(text, feature_text,
                        add_special_tokens=True,
                        return_offsets_mapping=False)
-    # for k, v in inputs.items():
-    #     inputs[k] = torch.tensor(v, dtype=torch.long)
     return inputs
 
 
@@ -18,7 +16,7 @@ def create_label(tokenizer, text, feature_text, annotation_length, location_list
                         return_offsets_mapping=True)
     offset_mapping = encoded['offset_mapping']
     ignore_idxes = np.where(np.array(encoded.sequence_ids()) != 0)[0]
-    label = np.zeros(len(offset_mapping))
+    label = np.zeros(len(offset_mapping), dtype=int)
     label[ignore_idxes] = -100
     if annotation_length != 0:
         for location in location_list:
@@ -36,7 +34,6 @@ def create_label(tokenizer, text, feature_text, annotation_length, location_list
                 if (start_idx != -1) & (end_idx != -1):
                     label[start_idx:end_idx] = 1
     return label
-    return torch.tensor(label, dtype=torch.float)
 
 
 class NBMEDataset(Dataset):
@@ -82,6 +79,7 @@ if __name__ == '__main__':
     # for i in range(16):
     #     print(len(dataset[i]['input_ids']), len(dataset[i]['label']))
         # print(dataset[i])
-    padded = tokenizer.pad(features, padding=True)
-    for k, v in padded.items():
-        print(k, v.shape)
+    # padded = tokenizer.pad(features, padding=True)
+    # for k, v in padded.items():
+    #     print(k, v.shape)
+    print([[k, type(v[0])] for k, v in dataset[0].items()])

@@ -39,6 +39,5 @@ trainer = Trainer(
         eval_dataset=val_dataset,
         tokenizer=tokenizer,
         data_collator=data_collator,
-        # compute_metrics=compute_metrics
 )
 trainer.train()
