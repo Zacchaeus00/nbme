@@ -45,8 +45,8 @@ class NBMEModel(nn.Module):
         return TokenClassifierOutput(
             loss=loss,
             logits=logits,
-            hidden_states=outputs.hidden_states,
-            attentions=outputs.attentions,
+            hidden_states=outputs.hidden_states if hasattr(outputs, 'hidden_states') else None,
+            attentions=outputs.attentions if hasattr(outputs, 'attentions') else None,
         )
 
 
