@@ -44,7 +44,7 @@ def get_tokenizer(checkpoint):
     if 'roberta-large' in checkpoint:
         print('TOKENIZER: ROBERTA')
         return AutoTokenizer.from_pretrained(checkpoint, trim_offsets=False)
-    return AutoTokenizer.from_pretrained(checkpoint)
+    return AutoTokenizer.from_pretrained(checkpoint, trim_offsets=False)
 
 
 if __name__ == "__main__":
