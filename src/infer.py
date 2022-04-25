@@ -48,6 +48,7 @@ for fold in range(5):
 blended_preds = {}
 for i in tqdm(range(len(test))):
     thispred = np.array([test_preds[j][i] for j in range(5)])
+    assert thispred.shape[1] == test.loc[i, 'pn_history'], f"index {i}: logit shape {thispred.shape}, but text len {test.loc[i, 'pn_history']}"
     blended_preds[test.loc[i, 'id']] = np.mean(thispred, axis=0)
 
 name = cfg.model_dir.split('/')[-1]
