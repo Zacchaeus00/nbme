@@ -43,4 +43,5 @@ def parse_args_pretrain():
     arg('--lr', type=float, default=1e-5)
     arg('--weight_decay', type=float, default=0.0)
     arg('--mlm_prob', type=float, default=0.2)
+    arg('--seed', type=int, default=42)
     return parser.parse_args()

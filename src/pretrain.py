@@ -14,10 +14,11 @@ from pathlib import Path
 
 from data_utils import LineByLineTextDataset
 from arguments import parse_args_pretrain
-from utils import get_time, get_tokenizer
+from utils import get_time, get_tokenizer, seed_everything
 
 timenow = get_time()
 cfg = parse_args_pretrain()
+seed_everything(cfg.seed)
 df = pd.read_csv(cfg.data_path)
 tokenizer = get_tokenizer(cfg.pretrained_checkpoint)
 dataset = LineByLineTextDataset(tokenizer, df['pn_history'].tolist(), 512)
@@ -41,6 +42,7 @@ args = TrainingArguments(
     group_by_length=True,
     run_name=timenow,
     save_total_limit=2,
+    seed=cfg.seed,
 )
 model = AutoModelForMaskedLM.from_pretrained(cfg.pretrained_checkpoint)
 trainer = Trainer(

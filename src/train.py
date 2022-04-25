@@ -51,7 +51,8 @@ for fold in range(5):
         run_name=name,
         metric_for_best_model="nbme_f1",
         save_total_limit=2,
-        label_names=['label']
+        label_names=['label'],
+        seed=cfg.seed,
     )
     model = NBMEModel(cfg.pretrained_checkpoint)
     trainer = Trainer(
