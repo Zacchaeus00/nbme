@@ -16,11 +16,11 @@ from pathlib import Path
 from data_utils import NBMEDataset
 from model_utils import NBMEModel
 from eval_utils import get_char_logits, get_results, get_predictions, get_score, create_labels_for_scoring, compute_metrics
-from arguments import parse_args
+from arguments import parse_args_train
 from utils import seed_everything, get_time, save_json, get_tokenizer, save_pickle
 
 timenow = get_time()
-cfg = parse_args()
+cfg = parse_args_train()
 seed_everything(cfg.seed)
 df = pd.read_pickle(cfg.data_path)
 tokenizer = get_tokenizer(cfg.pretrained_checkpoint)

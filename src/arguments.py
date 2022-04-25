@@ -1,7 +1,7 @@
 import argparse
 
 
-def parse_args():
+def parse_args_train():
     parser = argparse.ArgumentParser(description='')
     arg = parser.add_argument
     arg('--pretrained_checkpoint', type=str, default='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-base')
