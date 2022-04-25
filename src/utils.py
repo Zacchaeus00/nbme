@@ -38,12 +38,6 @@ def save_pickle(obj, path):
 
 
 def get_tokenizer(checkpoint):
-    if 'deberta-v3' in checkpoint:
-        from transformers import DebertaV2TokenizerFast
-        return DebertaV2TokenizerFast.from_pretrained(checkpoint)
-    if 'roberta-large' in checkpoint:
-        print('TOKENIZER: ROBERTA')
-        return AutoTokenizer.from_pretrained(checkpoint, trim_offsets=False)
     return AutoTokenizer.from_pretrained(checkpoint, trim_offsets=False)
 
 
