@@ -20,7 +20,7 @@ timenow = get_time()
 cfg = parse_args_pretrain()
 df = pd.read_csv(cfg.data_path)
 tokenizer = get_tokenizer(cfg.pretrained_checkpoint)
-dataset = LineByLineTextDataset(tokenizer, df['pn_history'].values, 512)
+dataset = LineByLineTextDataset(tokenizer, df['pn_history'].tolist(), 512)
 print(timenow)
 print(vars(cfg))
 print(f'{len(dataset)} rows')
@@ -46,7 +46,7 @@ model = AutoModelForMaskedLM.from_pretrained(cfg.pretrained_checkpoint)
 trainer = Trainer(
     model,
     args,
-    train_dataset=LineByLineTextDataset(tokenizer, df['pn_history'].values, 512),
+    train_dataset=dataset,
     tokenizer=tokenizer,
     data_collator=DataCollatorForLanguageModeling(
         tokenizer=tokenizer, mlm=True, mlm_probability=cfg.mlm_prob),
