@@ -75,6 +75,18 @@ class NBMEDatasetInfer(Dataset):
         return inputs
 
 
+class LineByLineTextDataset(Dataset):
+    def __init__(self, tokenizer, lines, block_size):
+        batch_encoding = tokenizer(lines, add_special_tokens=True, truncation=True, max_length=block_size, return_overflowing_tokens=False)
+        self.examples = batch_encoding["input_ids"]
+        self.examples = [{"input_ids": torch.tensor(e, dtype=torch.long)} for e in self.examples]
+
+    def __len__(self):
+        return len(self.examples)
+
+    def __getitem__(self, i):
+        return self.examples[i]
+
 if __name__ == '__main__':
     import pandas as pd
     from transformers import AutoTokenizer, DataCollatorForTokenClassification
