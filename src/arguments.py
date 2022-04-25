@@ -22,3 +22,12 @@ def parse_args_infer():
     arg('--data_dir', type=str, default='../data/nbme-score-clinical-patient-notes/')
     arg('--out_dir', type=str, default='../output/')
     return parser.parse_args()
+
+
+def parse_args_eval():
+    parser = argparse.ArgumentParser(description='')
+    arg = parser.add_argument
+    arg('--data_path', type=str, default='../data/train_processed.pkl')
+    arg('--pretrained_checkpoint', type=str, default='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-base')
+    arg('--model_dir', type=str, required=True)
+    return parser.parse_args()
