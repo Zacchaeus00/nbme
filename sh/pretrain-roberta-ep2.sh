@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=pretrain-roberta
+#SBATCH --job-name=pretrain-roberta-ep2
 #SBATCH --nodes=1                   
 #SBATCH --ntasks=1                  
 #SBATCH --cpus-per-task=8           
