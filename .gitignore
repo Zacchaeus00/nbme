@@ -4,6 +4,7 @@ data/
 log/
 wandb/
 foo.ipynb
+output/
 
 .idea/
 # Byte-compiled / optimized / DLL files

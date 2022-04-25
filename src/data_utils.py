@@ -59,6 +59,21 @@ class NBMEDataset(Dataset):
                              self.locations[item])
         return {**inputs, 'label': label}
 
+class NBMEDatasetInfer(Dataset):
+    def __init__(self, tokenizer, df):
+        self.tokenizer = tokenizer
+        self.feature_texts = df['feature_text'].values
+        self.pn_historys = df['pn_history'].values
+
+    def __len__(self):
+        return len(self.feature_texts)
+
+    def __getitem__(self, item):
+        inputs = prepare_input(self.tokenizer,
+                               self.pn_historys[item],
+                               self.feature_texts[item])
+        return inputs
+
 
 if __name__ == '__main__':
     import pandas as pd
@@ -85,3 +100,8 @@ if __name__ == '__main__':
     # for k, v in padded.items():
     #     print(k, v.shape)
     print([[k, type(v[0])] for k, v in dataset[0].items()])
+
+
+def preprocess_features(features):
+    features.loc[27, 'feature_text'] = "Last-Pap-smear-1-year-ago"
+    return features
