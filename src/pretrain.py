@@ -20,8 +20,11 @@ timenow = get_time()
 cfg = parse_args_pretrain()
 df = pd.read_csv(cfg.data_path)
 tokenizer = get_tokenizer(cfg.pretrained_checkpoint)
+dataset = LineByLineTextDataset(tokenizer, df['pn_history'].values, 512)
 print(timenow)
 print(vars(cfg))
+print(f'{len(dataset)} rows')
+print('sample data:', dataset[0])
 
 args = TrainingArguments(
     output_dir=f"../ckpt/{timenow}",
@@ -49,7 +52,3 @@ trainer = Trainer(
         tokenizer=tokenizer, mlm=True, mlm_probability=cfg.mlm_prob),
 )
 trainer.train()
-
-# save ckpt
-Path(f"../ckpt/{timenow}/").mkdir(parents=True, exist_ok=True)
-torch.save(model.state_dict(), f"../ckpt/{timenow}/pretrained.pt")
