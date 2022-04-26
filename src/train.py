@@ -38,6 +38,7 @@ for fold in range(5):
         evaluation_strategy="steps",
         save_strategy="steps",
         logging_steps=2860,
+        save_steps=2860,
         learning_rate=cfg.lr,
         per_device_train_batch_size=cfg.batch_size,
         per_device_eval_batch_size=cfg.batch_size,
