@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=eval
+#SBATCH --job-name=eval-deberta3
 #SBATCH --nodes=1                   
 #SBATCH --ntasks=1                  
 #SBATCH --cpus-per-task=8           
@@ -23,5 +23,6 @@ cd /gpfsnyu/scratch/yw3642/nbme/src
 echo "START"               
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle          
-python -u train.py
+python -u eval.py --pretrained_checkpoint /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-v3-large \
+--model_dir /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-25-07:34:50-99f9
 echo "FINISH"                       
