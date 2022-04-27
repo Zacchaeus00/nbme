@@ -106,6 +106,18 @@ def get_results(char_logits, th=0):
     return results
 
 
+def get_spans(char_logits, th=0):
+    results = []
+    for char_prob in char_logits:
+        result = np.where(char_prob > th)[0] + 1
+        result = [list(g) for _, g in itertools.groupby(result, key=lambda n, c=itertools.count(): n - next(c))]
+        result = [[min(r), max(r)] for r in result]
+        if result and result[0][0] == 1:
+            result[0][0] = 0
+        results.append(result)
+    return results
+
+
 def get_predictions(results):
     predictions = []
     for result in results:
