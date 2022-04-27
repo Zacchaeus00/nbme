@@ -29,7 +29,7 @@ def get_time():
 
 def save_json(obj, path):
     with open(path, 'w') as f:
-        json.dump(obj, f)
+        json.dump(obj, f, indent=4)
 
 
 def save_pickle(obj, path):
@@ -39,6 +39,10 @@ def save_pickle(obj, path):
 
 def get_tokenizer(checkpoint):
     return AutoTokenizer.from_pretrained(checkpoint, trim_offsets=False)
+
+
+def get_uid():
+    return str(uuid.uuid4())[:4]
 
 
 if __name__ == "__main__":

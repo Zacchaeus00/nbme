@@ -45,3 +45,11 @@ def parse_args_pretrain():
     arg('--mlm_prob', type=float, default=0.2)
     arg('--seed', type=int, default=42)
     return parser.parse_args()
+
+def parse_args_blend():
+    parser = argparse.ArgumentParser(description='')
+    arg = parser.add_argument
+    arg('--result_dirs', nargs='+', required=True)
+    arg('--data_path', type=str, default='../data/train_processed.pkl')
+    arg('--n_trials', type=int, default=100)
+    return parser.parse_args()
