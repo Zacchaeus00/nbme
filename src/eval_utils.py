@@ -88,9 +88,8 @@ def get_char_logits(texts, predictions, tokenizer):
         encoded = tokenizer(text,
                             add_special_tokens=True,
                             return_offsets_mapping=True)
-        for idx, (offset_mapping, pred) in enumerate(zip(encoded['offset_mapping'], prediction)):
-            start = offset_mapping[0]
-            end = offset_mapping[1]
+        for idx, (offset_mapping, pred) in enumerate(zip(fix_offsets(encoded['offset_mapping'], text), prediction)):
+            start, end = offset_mapping
             results[i][start:end] = pred
     return results
 
@@ -134,6 +133,7 @@ def get_score(y_true, y_pred):
     score = span_micro_f1(y_true, y_pred)
     return score
 
+
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
     logits = logits.reshape(logits.shape[0], -1)
@@ -150,3 +150,15 @@ def compute_metrics(eval_pred):
     return {
         'nbme_f1': f1_score(labels_masked, predictions_masked)
     }
+
+
+def fix_offsets(offset_mapping, text):
+    re = []
+    last_e = 0
+    for i in range(1, len(offset_mapping)-1):
+        s, e = offset_mapping[i]
+        if text[s] != ' ' and s != last_e:
+            s = last_e
+        last_e = e
+        re.append((s, e))
+    return re
