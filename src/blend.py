@@ -51,7 +51,8 @@ print('best blend weights:', study.best_params)
 print('best blend score:', study.best_trial.values[0])
 
 log['blend'] = study.best_trial.values[0]
-log['weights'] = study.best_params
+for i, res_dir in enumerate(cfg.result_dirs):
+    log['weights'][res_dir] = study.best_params[f'w{i}']
 name = f'blend-{get_uid()}.json'
 for res_dir in cfg.result_dirs:
     save_json(log, os.path.join(res_dir, name))
