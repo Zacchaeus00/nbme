@@ -37,8 +37,6 @@ for fold in range(5):
         output_dir=f"../ckpt/{name}",
         evaluation_strategy="steps",
         save_strategy="steps",
-        logging_steps=5720,
-        save_steps=5720,
         learning_rate=cfg.lr,
         per_device_train_batch_size=cfg.batch_size,
         per_device_eval_batch_size=cfg.batch_size,
