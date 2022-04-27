@@ -27,7 +27,7 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-26-20:11:47-22c0 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-26-20:11:47-952e \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-26-20:11:47-c8b3 \
-/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-26-17:57:25-9d71 \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-27-04:13:29-3ee5 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-26-09:27:10-4c7e \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-27-02:53:06-6b2f \
 --n_trials 1000
