@@ -11,7 +11,7 @@ def prepare_input(tokenizer, text, feature_text):
     return inputs
 
 
-def create_label(tokenizer, text, feature_text, annotation_length, location_list):
+def create_label(tokenizer, text, feature_text, annotation_length, location_list): #TODO: end with answer is buggy
     encoded = tokenizer(text, feature_text,
                         add_special_tokens=True,
                         return_offsets_mapping=True)
