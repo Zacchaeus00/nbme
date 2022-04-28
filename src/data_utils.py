@@ -11,7 +11,7 @@ def prepare_input(tokenizer, text, feature_text):
     return inputs
 
 
-def create_label(tokenizer, text, feature_text, annotation_length, location_list): #TODO: end with answer is buggy
+def create_label(tokenizer, text, feature_text, annotation_length, location_list):
     encoded = tokenizer(text, feature_text,
                         add_special_tokens=True,
                         return_offsets_mapping=True)
@@ -31,7 +31,7 @@ def create_label(tokenizer, text, feature_text, annotation_length, location_list
                     if (end_idx == -1) & (end <= offset_mapping[idx][1]):
                         end_idx = idx + 1
                 if start_idx == -1:
-                    start_idx = end_idx
+                    start_idx = end_idx - 1
                 if (start_idx != -1) & (end_idx != -1):
                     label[start_idx:end_idx] = 1
     return label
