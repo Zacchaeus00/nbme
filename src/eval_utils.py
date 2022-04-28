@@ -88,7 +88,7 @@ def get_char_logits(texts, predictions, tokenizer):
         encoded = tokenizer(text,
                             add_special_tokens=True,
                             return_offsets_mapping=True)
-        for idx, (offset_mapping, pred) in enumerate(zip(encoded['offset_mapping'], text, prediction)):
+        for idx, (offset_mapping, pred) in enumerate(zip(encoded['offset_mapping'], prediction)):
             start, end = offset_mapping
             results[i][start:end] = pred
     return results
