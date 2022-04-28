@@ -97,7 +97,7 @@ def get_char_logits(texts, predictions, tokenizer):
 def get_results(char_logits, th=0):
     results = []
     for char_prob in char_logits:
-        result = np.where(char_prob > th)[0] + 1 # TODO: this part is buggy
+        result = np.where(char_prob > th)[0] + 1
         result = [list(g) for _, g in itertools.groupby(result, key=lambda n, c=itertools.count(): n - next(c))]
         result = [f"{min(r)} {max(r)}" for r in result]
         result = ";".join(result)
@@ -108,7 +108,7 @@ def get_results(char_logits, th=0):
 def my_get_results(char_logits, texts, th=0):
     results = []
     for i, char_prob in enumerate(char_logits):
-        result = np.where(char_prob > th)[0] # TODO: this part is buggy
+        result = np.where(char_prob > th)[0]
         result = [list(g) for _, g in itertools.groupby(result, key=lambda n, c=itertools.count(): n - next(c))]
         temp = []
         for r in result:
