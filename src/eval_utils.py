@@ -82,13 +82,14 @@ def create_labels_for_scoring(df):
     return truths
 
 
-def get_char_logits(texts, predictions, tokenizer):
+def get_char_logits(texts, predictions, tokenizer, do_fix_offsets=False):
     results = [np.zeros(len(t)) for t in texts]
     for i, (text, prediction) in enumerate(zip(texts, predictions)):
         encoded = tokenizer(text,
                             add_special_tokens=True,
                             return_offsets_mapping=True)
-        for idx, (offset_mapping, pred) in enumerate(zip(encoded['offset_mapping'], prediction)):
+        offset_mappings = fix_offsets(encoded['offset_mapping'], text) if do_fix_offsets else encoded['offset_mapping']
+        for idx, (offset_mapping, pred) in enumerate(zip(offset_mappings, prediction)):
             start, end = offset_mapping
             results[i][start:end] = pred
     return results
@@ -178,12 +179,18 @@ def compute_metrics(eval_pred):
 
 
 def fix_offsets(offset_mapping, text):
-    re = []
+    n = len(offset_mapping)
+    if n == 0:
+        return []
+    if n == 1:
+        return offset_mapping[0]
+    re = [offset_mapping[0]]
     last_e = 0
-    for i in range(1, len(offset_mapping)-1):
+    for i in range(1, n-1):
         s, e = offset_mapping[i]
         if text[s] != ' ' and s != last_e:
             s = last_e
         last_e = e
         re.append((s, e))
+    re.append(offset_mapping[n-1])
     return re

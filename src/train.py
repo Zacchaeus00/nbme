@@ -67,7 +67,7 @@ for fold in range(5):
     trainer.train()
     predictions = trainer.predict(NBMEDataset(tokenizer, val_df)).predictions  # [n, maxlen, 1]
     predictions = predictions.reshape(len(val_df), -1)
-    char_logits = get_char_logits(val_df['pn_history'].values, predictions, tokenizer)
+    char_logits = get_char_logits(val_df['pn_history'].values, predictions, tokenizer, do_fix_offsets=cfg.do_fix_offsets)
     oof_preds.update({k: v for k, v in zip(val_df['id'], char_logits)})
     results = my_get_results(char_logits, val_df['pn_history'].values)
     preds = get_predictions(results)
