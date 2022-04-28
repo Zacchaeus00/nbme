@@ -83,7 +83,7 @@ def create_labels_for_scoring(df):
 
 
 def get_char_logits(texts, predictions, tokenizer):
-    results = [np.zeros(len(t))-1 for t in texts]
+    results = [np.zeros(len(t)) for t in texts]
     for i, (text, prediction) in enumerate(zip(texts, predictions)):
         encoded = tokenizer(text,
                             add_special_tokens=True,
