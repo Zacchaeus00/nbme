@@ -45,18 +45,28 @@ class NBMEDataset(Dataset):
         self.annotation_lengths = df['annotation_length'].values
         self.locations = df['location'].values
 
+        # cache __get__ for faster training
+        self.inputs_cache = []
+        for item in range(len(df)):
+            inputs = prepare_input(self.tokenizer,
+                                   self.pn_historys[item],
+                                   self.feature_texts[item])
+            self.inputs_cache.append(inputs)
+        self.label_cache = []
+        for item in range(len(df)):
+            label = create_label(self.tokenizer,
+                                 self.pn_historys[item],
+                                 self.feature_texts[item],
+                                 self.annotation_lengths[item],
+                                 self.locations[item])
+            self.label_cache.append(label)
+
     def __len__(self):
         return len(self.feature_texts)
 
     def __getitem__(self, item):
-        inputs = prepare_input(self.tokenizer,
-                               self.pn_historys[item],
-                               self.feature_texts[item])
-        label = create_label(self.tokenizer,
-                             self.pn_historys[item],
-                             self.feature_texts[item],
-                             self.annotation_lengths[item],
-                             self.locations[item])
+        inputs = self.inputs_cache[item]
+        label = self.label_cache[item]
         return {**inputs, 'label': label}
 
 class NBMEDatasetInfer(Dataset):
@@ -65,13 +75,19 @@ class NBMEDatasetInfer(Dataset):
         self.feature_texts = df['feature_text'].values
         self.pn_historys = df['pn_history'].values
 
+        # cache __get__ for faster training
+        self.inputs_cache = []
+        for item in range(len(df)):
+            inputs = prepare_input(self.tokenizer,
+                                   self.pn_historys[item],
+                                   self.feature_texts[item])
+            self.inputs_cache.append(inputs)
+
     def __len__(self):
         return len(self.feature_texts)
 
     def __getitem__(self, item):
-        inputs = prepare_input(self.tokenizer,
-                               self.pn_historys[item],
-                               self.feature_texts[item])
+        inputs = self.inputs_cache[item]
         return inputs
 
 
