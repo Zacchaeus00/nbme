@@ -105,14 +105,39 @@ def get_results(char_logits, th=0):
     return results
 
 
-def get_spans(char_logits, th=0):
+def my_get_results(char_logits, texts, th=0):
     results = []
-    for char_prob in char_logits:
-        result = np.where(char_prob > th)[0] + 1
+    for i, char_prob in enumerate(char_logits):
+        result = np.where(char_prob > th)[0] # TODO: this part is buggy
         result = [list(g) for _, g in itertools.groupby(result, key=lambda n, c=itertools.count(): n - next(c))]
-        result = [[min(r), max(r)] for r in result]
-        if result and result[0][0] == 1:
-            result[0][0] = 0
+        temp = []
+        for r in result:
+            s, e = min(r), max(r)
+            while texts[i][s] == ' ':
+                s += 1
+            while texts[i][e] == ' ':
+                e -= 1
+            temp.append(f"{s} {e+1}")
+        result = temp
+        result = ";".join(result)
+        results.append(result)
+    return results
+
+
+def get_spans(char_logits, texts, th=0):
+    results = []
+    for i, char_prob in enumerate(char_logits):
+        result = np.where(char_prob > th)[0]
+        result = [list(g) for _, g in itertools.groupby(result, key=lambda n, c=itertools.count(): n - next(c))]
+        temp = []
+        for r in result:
+            s, e = min(r), max(r)
+            while texts[i][s] == ' ':
+                s += 1
+            while texts[i][e] == ' ':
+                e -= 1
+            temp.append([s, e+1])
+        result = temp
         results.append(result)
     return results
 

@@ -15,7 +15,7 @@ from pathlib import Path
 
 from data_utils import NBMEDataset
 from model_utils import NBMEModel
-from eval_utils import get_char_logits, get_results, get_predictions, get_score, create_labels_for_scoring, compute_metrics
+from eval_utils import get_char_logits, my_get_results, get_predictions, get_score, create_labels_for_scoring, compute_metrics
 from arguments import parse_args_train
 from utils import seed_everything, get_time, save_json, get_tokenizer, save_pickle
 
@@ -69,7 +69,7 @@ for fold in range(5):
     predictions = predictions.reshape(len(val_df), -1)
     char_logits = get_char_logits(val_df['pn_history'].values, predictions, tokenizer)
     oof_preds.update({k: v for k, v in zip(val_df['id'], char_logits)})
-    results = get_results(char_logits)
+    results = my_get_results(char_logits, val_df['pn_history'].values)
     preds = get_predictions(results)
     scores.append(get_score(create_labels_for_scoring(val_df), preds))
     print(f'fold {fold} score: {scores[-1]}')
