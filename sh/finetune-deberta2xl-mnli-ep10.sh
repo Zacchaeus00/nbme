@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=finetune-deberta2xl-ep10
+#SBATCH --job-name=finetune-deberta2xl-mnli-ep10
 #SBATCH --nodes=1                   
 #SBATCH --ntasks=1                  
 #SBATCH --cpus-per-task=8           
@@ -23,6 +23,6 @@ cd /gpfsnyu/scratch/yw3642/nbme/src
 echo "START"               
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle          
-python -u train.py --pretrained_checkpoint /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-26-22:27:04-0a68/checkpoint-189657 \
---epochs 10 --batch_size 2 --accumulation_steps 2 --lr 1e-5 --weight_decay 0.0 --seed 50
+python -u train.py --pretrained_checkpoint /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-27-21:06:58-3405/checkpoint-210730 \
+--epochs 10 --batch_size 2 --accumulation_steps 2 --lr 1e-5 --weight_decay 0.0 --seed 5829
 echo "FINISH"                       
