@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=finetune-albertxxl2-ep10
+#SBATCH --job-name=finetune-funnel-ep10
 #SBATCH --nodes=1                   
 #SBATCH --ntasks=1                  
 #SBATCH --cpus-per-task=8           
@@ -23,6 +23,6 @@ cd /gpfsnyu/scratch/yw3642/nbme/src
 echo "START"               
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle          
-python -u train.py --pretrained_checkpoint /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-26-23:44:16-9f3d/checkpoint-105370 \
---epochs 10 --batch_size 4 --accumulation_steps 1 --lr 1e-5 --weight_decay 0.0 --seed 999 --do_fix_offsets
+python -u train.py --pretrained_checkpoint /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-27-17:31:14-f274/checkpoint-105370 \
+--epochs 10 --batch_size 4 --accumulation_steps 1 --lr 1e-5 --weight_decay 0.0 --seed 301452 --do_fix_offsets
 echo "FINISH"                       
