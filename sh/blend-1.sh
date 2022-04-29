@@ -35,6 +35,7 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-29-12:27:21-20e9 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-29-10:16:54-b5c1 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-29-10:26:43-39ad \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-30-01:20:45-ca14 \
 --n_trials 1000
 #1. roberta-large
 #2. muppet-roberta-large
@@ -48,4 +49,5 @@ python -u blend.py --result_dirs \
 #10. ernie-large
 #11. electra-large-discriminator
 #12. funnel-large
+#13. deberta-v3-base
 echo "FINISH"                       
