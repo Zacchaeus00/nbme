@@ -23,7 +23,7 @@ for i, res_dir in enumerate(cfg.result_dirs):
     df = pd.DataFrame({'id': ids, f'char_logits{i}': char_logits.values()})
     train = train.merge(df, on='id', how='left')
     spans = get_spans(train[f'char_logits{i}'].tolist(), train['pn_history'].tolist())
-    df = pd.DataFrame({'id': ids, f'prediction{i}': spans})
+    df = pd.DataFrame({'id': train['id'].tolist(), f'prediction{i}': spans})
     train = train.merge(df, on='id', how='left')
     score = get_score(train_labels, train[f'prediction{i}'].values)
     log['individual'][res_dir] = score
