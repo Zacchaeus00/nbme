@@ -2,6 +2,7 @@ import json
 import os
 from pprint import pprint
 import gc
+import psutil
 
 import numpy as np
 import pandas as pd
@@ -65,6 +66,7 @@ for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
     del results
     gc.collect()
     print(f'pl_df memory size: {pl_df.memory_usage(deep=True).sum() / (1024**2)} MB')
+    print(f'mem used {psutil.virtual_memory().percent}%')
 
 all_char_logits = []
 weights = []
