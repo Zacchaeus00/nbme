@@ -29,7 +29,7 @@ for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
     print(i, pretrained_ckpt)
     model_dir = cfg.model_dirs[i]
     tokenizer = get_tokenizer(pretrained_ckpt)
-    model = NBMEModel(cfg.pretrained_checkpoint).cuda()
+    model = NBMEModel(pretrained_ckpt).cuda()
     results = {}  # {id: char_logits}
     for fold in range(5):
         pl_df_fold = pl_df[pl_df['fold'] == fold].reset_index(drop=True)
@@ -46,7 +46,7 @@ for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
             pred = F.pad(input=pred, pad=(0, maxlen - pred.shape[1]), mode='constant', value=-100).cpu().numpy()
             preds.append(pred)
         preds = np.concatenate(preds, axis=0)  # [n, maxlen]
-        if_fix_offsets = check_if_fix_offsets(cfg.pretrained_checkpoints)
+        if_fix_offsets = check_if_fix_offsets(pretrained_ckpt)
         print('if_fix_offsets:', if_fix_offsets)
         char_logits = get_char_logits(pl_df_fold['pn_history'].values, preds, tokenizer, do_fix_offsets=if_fix_offsets)
         results.update({k: v for k, v in zip(pl_df_fold['id'], char_logits)})
