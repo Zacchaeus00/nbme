@@ -59,10 +59,9 @@ def parse_args_blend():
 def parse_args_pl_infer():
     parser = argparse.ArgumentParser(description='')
     arg = parser.add_argument
-    arg('--pretrained_checkpoints', nargs='+', required=True)
-    arg('--model_dirs', nargs='+', required=True)
-    arg('--blend_log', type=str, required=True)
+    arg('--pretrained_checkpoint', type=str, required=True)
+    arg('--model_dir', type=str, required=True)
     arg('--data_path', type=str, default='../data/train_pl_all.pkl')
-    arg('--out_dir', type=str, default='../data/')
     arg('--batch_size', type=int, default=16)
+    arg("--do_fix_offsets", default=False, action="store_true", help="fix offsets (force trim_offsets=False)")
     return parser.parse_args()
