@@ -64,6 +64,7 @@ for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
                         how='left')
     del results
     gc.collect()
+    print(f'pl_df memory size: {pl_df.memory_usage(deep=True).sum() / (1024**2)} MB')
 
 all_char_logits = []
 weights = []
