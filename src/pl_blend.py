@@ -4,7 +4,7 @@ import os
 import pandas as pd
 import numpy as np
 import gc
-import pprint
+from pprint import pprint
 from arguments import parse_args_pl_blend
 from eval_utils import get_spans
 from utils import save_json
