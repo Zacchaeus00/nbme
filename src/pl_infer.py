@@ -51,7 +51,7 @@ for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
             pred = F.pad(input=pred, pad=(0, maxlen - pred.shape[1]), mode='constant', value=-100).cpu().numpy()
             preds.append(pred)
         preds = np.concatenate(preds, axis=0)  # [n, maxlen]
-        print('preds memory size:', preds.size * preds.itemsize)
+        print(f'preds memory size : {preds.size * preds.itemsize / (1024**2)} MB')
         if_fix_offsets = check_if_fix_offsets(pretrained_ckpt)
         print('if_fix_offsets:', if_fix_offsets)
         char_logits = get_char_logits(pl_df_fold['pn_history'].values, preds, tokenizer, do_fix_offsets=if_fix_offsets)
