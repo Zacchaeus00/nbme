@@ -1,5 +1,6 @@
 import json
 import os
+from pprint import pprint
 
 import numpy as np
 import pandas as pd
@@ -20,7 +21,7 @@ from tqdm import tqdm
 cfg = parse_args_pl_infer()
 pl_df = pd.read_pickle(cfg.data_path)
 blend_log = json.load(open(cfg.blend_log, 'r'))
-print(vars(cfg))
+pprint(vars(cfg))
 print('blend log:', blend_log)
 assert set(blend_log['individual'].keys()) == set(cfg.model_dirs), "model dirs not match"
 
