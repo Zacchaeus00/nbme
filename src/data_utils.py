@@ -70,7 +70,7 @@ class NBMEDataset(Dataset):
         return {**inputs, 'label': label}
 
 class NBMEDatasetInfer(Dataset):
-    def __init__(self, tokenizer, df, cuda=True):
+    def __init__(self, tokenizer, df, cuda=False):
         self.tokenizer = tokenizer
         self.feature_texts = df['feature_text'].values
         self.pn_historys = df['pn_history'].values
