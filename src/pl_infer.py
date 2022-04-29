@@ -26,9 +26,9 @@ assert set(blend_log['individual'].keys()) == set(cfg.model_dirs), "model dirs n
 
 pl_df['char_logits_blend'] = pl_df['pn_history'].apply(lambda x: np.zeros(len(x)))
 for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
-    print(pretrained_ckpt)
+    print(i, pretrained_ckpt)
     model_dir = cfg.model_dirs[i]
-    tokenizer = get_tokenizer(cfg.pretrained_checkpoint)
+    tokenizer = get_tokenizer(pretrained_ckpt)
     model = NBMEModel(cfg.pretrained_checkpoint).cuda()
     results = {}  # {id: char_logits}
     for fold in range(5):
