@@ -75,3 +75,5 @@ for i in range(len(pl_df)):
     annotations.append(annotation)
 pl_df['annotation'] = annotations
 pl_df['annotation_length'] = pl_df['annotation'].apply(len)
+uid = cfg.blend_log.split('.')[-2][-4:]
+pl_df.to_pickle(os.path.join(cfg.out_dir, f'pl-{uid}.pkl'))
