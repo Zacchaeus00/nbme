@@ -26,6 +26,7 @@ assert set(blend_log['individual'].keys()) == set(cfg.model_dirs), "model dirs n
 
 pl_df['char_logits_blend'] = pl_df['pn_history'].apply(lambda x: np.zeros(len(x)))
 for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
+    print(pretrained_ckpt)
     model_dir = cfg.model_dirs[i]
     tokenizer = get_tokenizer(cfg.pretrained_checkpoint)
     model = NBMEModel(cfg.pretrained_checkpoint).cuda()
@@ -45,8 +46,9 @@ for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
             pred = F.pad(input=pred, pad=(0, maxlen - pred.shape[1]), mode='constant', value=-100).cpu().numpy()
             preds.append(pred)
         preds = np.concatenate(preds, axis=0)  # [n, maxlen]
-        char_logits = get_char_logits(pl_df_fold['pn_history'].values, preds, tokenizer,
-                                      do_fix_offsets=check_if_fix_offsets(cfg.pretrained_checkpoints))
+        if_fix_offsets = check_if_fix_offsets(cfg.pretrained_checkpoints)
+        print('if_fix_offsets:', if_fix_offsets)
+        char_logits = get_char_logits(pl_df_fold['pn_history'].values, preds, tokenizer, do_fix_offsets=if_fix_offsets)
         results.update({k: v for k, v in zip(pl_df_fold['id'], char_logits)})
     pl_df = pl_df.merge(pd.DataFrame({'id': list(results.keys()), model_dir: list(results.values())}), on='id',
                         how='left')
