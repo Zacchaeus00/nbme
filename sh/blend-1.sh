@@ -33,13 +33,13 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-28-23:24:05-bc37 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-28-23:23:06-f755 \
 --n_trials 1000
-#roberta-large
-#muppet-roberta-large
-#roberta-base
-#bart-large
-#bart-large-mnli
-#deberta-large
-#deberta-base
-#deberta-large-mnli
-#deberta-v3-large
+#1. roberta-large
+#2. muppet-roberta-large
+#3. roberta-base
+#4. bart-large
+#5. bart-large-mnli
+#6. deberta-large
+#7. deberta-base
+#8. deberta-large-mnli
+#9. deberta-v3-large
 echo "FINISH"                       
