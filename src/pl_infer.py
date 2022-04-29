@@ -37,7 +37,7 @@ for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
         pl_dataset_fold = NBMEDatasetInfer(tokenizer, pl_df_fold)
         maxlen = max([len(x['input_ids']) for x in pl_dataset_fold])
         dataloader = DataLoader(pl_dataset_fold, batch_size=cfg.batch_size, shuffle=False,
-                                collate_fn=DataCollatorForTokenClassification(tokenizer))
+                                collate_fn=DataCollatorForTokenClassification(tokenizer), pin_memory=True)
         model.load_state_dict(torch.load(os.path.join(model_dir, f'{fold}.pt')))
         model.eval()
         preds = []
