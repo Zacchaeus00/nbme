@@ -21,7 +21,7 @@ pl_df = pd.read_pickle(cfg.data_path)
 char_logits_blend = [np.zeros(len(text)) for text in pl_df.pn_history.values]
 for model_dir, w in tqdm(blend_log['weights'].items()):
     char_logits = pickle.load(open(os.path.join(model_dir, 'pl_logits.pkl'), 'rb'))
-    df = pl_df.merge(pd.DataFrame({'id': list(char_logits.keys()), 'char_logits': list(char_logits.keys())}),
+    df = pl_df.merge(pd.DataFrame({'id': list(char_logits.keys()), 'char_logits': list(char_logits.values())}),
                      on='id',
                      how='left')
     char_logits = df.char_logits.values
