@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import numpy as np
 import gc
+import pprint
 from arguments import parse_args_pl_blend
 from eval_utils import get_spans
 from utils import save_json
@@ -13,6 +14,7 @@ print(vars(cfg))
 uid = cfg.blend_log[-9:-5]
 print('uid:', uid)
 blend_log = json.load(open(cfg.blend_log, 'r'))
+pprint(blend_log)
 pl_df = pd.read_pickle(cfg.data_path)
 
 char_logits_blend = [np.zeros(len(text)) for text in pl_df.pn_history.values]
