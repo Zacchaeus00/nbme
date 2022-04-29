@@ -6,6 +6,7 @@ import numpy as np
 import gc
 from arguments import parse_args_pl_blend
 from eval_utils import get_spans
+from utils import save_json
 
 cfg = parse_args_pl_blend()
 print(vars(cfg))
@@ -45,3 +46,4 @@ for i, spans in enumerate(all_spans):
 pl_df['annotation'] = annotations
 pl_df['annotation_length'] = pl_df['annotation'].apply(len)
 pl_df.to_pickle(os.path.join(cfg.out_dir, f'train_pl_{uid}.pkl'))
+save_json(blend_log, os.path.join(cfg.out_dir, f'blend-{uid}.json'))
