@@ -65,3 +65,13 @@ def parse_args_pl_infer():
     arg('--batch_size', type=int, default=16)
     arg("--do_fix_offsets", default=False, action="store_true", help="fix offsets (force trim_offsets=False)")
     return parser.parse_args()
+
+
+def parse_args_pl_blend():
+    parser = argparse.ArgumentParser(description='')
+    arg = parser.add_argument
+    arg('--blend_log', type=str, required=True)
+    arg('--data_path', type=str, default='../data/train_pl_all.pkl')
+    arg('--out_dir', type=str, default='../data/')
+    return parser.parse_args()
+
