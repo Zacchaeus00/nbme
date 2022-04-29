@@ -8,6 +8,7 @@ import pprint
 from arguments import parse_args_pl_blend
 from eval_utils import get_spans
 from utils import save_json
+from tqdm import tqdm
 
 cfg = parse_args_pl_blend()
 print(vars(cfg))
@@ -18,7 +19,7 @@ pprint(blend_log)
 pl_df = pd.read_pickle(cfg.data_path)
 
 char_logits_blend = [np.zeros(len(text)) for text in pl_df.pn_history.values]
-for model_dir, w in blend_log['weights'].items():
+for model_dir, w in tqdm(blend_log['weights'].items()):
     char_logits = pickle.load(open(os.path.join(model_dir, 'pl_logits.pkl'), 'rb'))
     df = pl_df.merge(pd.DataFrame({'id': list(char_logits.keys()), 'char_logits': list(char_logits.keys())}),
                      on='id',
