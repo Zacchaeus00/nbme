@@ -36,7 +36,7 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-29-10:16:54-b5c1 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-29-10:26:43-39ad \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-30-01:20:45-ca14 \
---n_trials 1000
+--n_trials 5000
 #1. roberta-large
 #2. muppet-roberta-large
 #3. roberta-base
