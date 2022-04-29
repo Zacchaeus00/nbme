@@ -1,6 +1,7 @@
 import json
 import os
 from pprint import pprint
+import gc
 
 import numpy as np
 import pandas as pd
@@ -35,24 +36,34 @@ for i, pretrained_ckpt in enumerate(cfg.pretrained_checkpoints):
     for fold in range(5):
         pl_df_fold = pl_df[pl_df['fold'] == fold].reset_index(drop=True)
         pl_dataset_fold = NBMEDatasetInfer(tokenizer, pl_df_fold)
+        dataset_len = len(pl_dataset_fold)
         maxlen = max([len(x['input_ids']) for x in pl_dataset_fold])
         dataloader = DataLoader(pl_dataset_fold, batch_size=cfg.batch_size, shuffle=False,
                                 collate_fn=DataCollatorForTokenClassification(tokenizer), pin_memory=True)
+        del pl_dataset_fold
+        gc.collect()
         model.load_state_dict(torch.load(os.path.join(model_dir, f'{fold}.pt')))
         model.eval()
         preds = []
-        for b in tqdm(dataloader, total=len(pl_dataset_fold) // cfg.batch_size + 1):
+        for b in tqdm(dataloader, total=dataset_len // cfg.batch_size + 1):
             b = {k: v.cuda() for k, v in b.items()}
             pred = model(**b).logits.squeeze()  # [bs, maxlen, 1]
             pred = F.pad(input=pred, pad=(0, maxlen - pred.shape[1]), mode='constant', value=-100).cpu().numpy()
             preds.append(pred)
         preds = np.concatenate(preds, axis=0)  # [n, maxlen]
+        print('preds memory size:', preds.size * preds.itemsize)
         if_fix_offsets = check_if_fix_offsets(pretrained_ckpt)
         print('if_fix_offsets:', if_fix_offsets)
         char_logits = get_char_logits(pl_df_fold['pn_history'].values, preds, tokenizer, do_fix_offsets=if_fix_offsets)
+        del preds
+        gc.collect()
         results.update({k: v for k, v in zip(pl_df_fold['id'], char_logits)})
+        del char_logits
+        gc.collect()
     pl_df = pl_df.merge(pd.DataFrame({'id': list(results.keys()), model_dir: list(results.values())}), on='id',
                         how='left')
+    del results
+    gc.collect()
 
 all_char_logits = []
 weights = []
