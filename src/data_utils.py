@@ -70,10 +70,11 @@ class NBMEDataset(Dataset):
         return {**inputs, 'label': label}
 
 class NBMEDatasetInfer(Dataset):
-    def __init__(self, tokenizer, df):
+    def __init__(self, tokenizer, df, cuda=True):
         self.tokenizer = tokenizer
         self.feature_texts = df['feature_text'].values
         self.pn_historys = df['pn_history'].values
+        self.cuda = cuda
 
         # cache __get__ for faster training
         self.inputs_cache = []
@@ -81,7 +82,10 @@ class NBMEDatasetInfer(Dataset):
             inputs = prepare_input(self.tokenizer,
                                    self.pn_historys[item],
                                    self.feature_texts[item])
-            self.inputs_cache.append(inputs)
+            if self.cuda:
+                self.inputs_cache.append({k: v.cuda() for k,v in inputs.items()})
+            else:
+                self.inputs_cache.append(inputs)
 
     def __len__(self):
         return len(self.feature_texts)
