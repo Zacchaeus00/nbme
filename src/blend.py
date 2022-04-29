@@ -55,4 +55,5 @@ for i, res_dir in enumerate(cfg.result_dirs):
     log['weights'][res_dir] = study.best_params[f'w{i}']
 name = f'blend-{get_uid()}.json'
 for res_dir in cfg.result_dirs:
+    log['self'] = res_dir
     save_json(log, os.path.join(res_dir, name))
