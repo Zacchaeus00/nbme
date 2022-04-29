@@ -45,6 +45,13 @@ def get_uid():
     return str(uuid.uuid4())[:4]
 
 
+def check_if_fix_offsets(checkpoint):
+    do_fix_offsets_names = ['electra', 'ernie', 'albert', 'funnel']
+    for name in do_fix_offsets_names:
+        if name in checkpoint:
+            return True
+    return False
+
 if __name__ == "__main__":
     # tok = get_tokenizer('microsoft/deberta-v3-large')
     tok = get_tokenizer('roberta-large')

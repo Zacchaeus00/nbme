@@ -54,3 +54,15 @@ def parse_args_blend():
     arg('--data_path', type=str, default='../data/train_processed.pkl')
     arg('--n_trials', type=int, default=100)
     return parser.parse_args()
+
+
+def parse_args_pl_infer():
+    parser = argparse.ArgumentParser(description='')
+    arg = parser.add_argument
+    arg('--pretrained_checkpoints', nargs='+', required=True)
+    arg('--model_dirs', nargs='+', required=True)
+    arg('--blend_log', type=str, required=True)
+    arg('--data_path', type=str, default='../data/train_pl_all.pkl')
+    arg('--out_dir', type=str, default='../data/')
+    arg('--batch_size', type=int, default=16)
+    return parser.parse_args()
