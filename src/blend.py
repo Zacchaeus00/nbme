@@ -20,8 +20,10 @@ for i, res_dir in enumerate(cfg.result_dirs):
     print(res_dir)
     char_logits = pk.load(open(os.path.join(res_dir, 'oof.pkl'), 'rb'))
     ids = list(char_logits.keys())
-    spans = get_spans(list(char_logits.values()))
-    df = pd.DataFrame({'id': ids, f'prediction{i}': spans, f'char_logits{i}': char_logits.values()})
+    df = pd.DataFrame({'id': ids, f'char_logits{i}': char_logits.values()})
+    train = train.merge(df, on='id', how='left')
+    spans = get_spans(train[f'char_logits{i}'].tolist(), train['pn_history'].tolist())
+    df = pd.DataFrame({'id': ids, f'prediction{i}': spans})
     train = train.merge(df, on='id', how='left')
     score = get_score(train_labels, train[f'prediction{i}'].values)
     log['individual'][res_dir] = score
@@ -40,7 +42,7 @@ def objective(trial):
         for j in range(len(cfg.result_dirs)):
             logits.append(train.loc[i, f'char_logits{j}'])
         char_logits_blend.append(np.average(logits, weights=weights, axis=0))
-    spans = get_spans(char_logits_blend)
+    spans = get_spans(char_logits_blend, train['pn_history'].tolist())
     score = get_score(train_labels, spans)
     return score
 
