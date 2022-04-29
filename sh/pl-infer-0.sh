@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=pl-infer-0
+#SBATCH --job-name=pl-infer-2
 #SBATCH --nodes=1                   
 #SBATCH --ntasks=1                  
 #SBATCH --cpus-per-task=8           
@@ -23,6 +23,12 @@ cd /gpfsnyu/scratch/yw3642/nbme/src
 echo "START"               
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle          
-python -u pl_infer.py
-
+python -u pl_infer.py \
+--blend_log /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-28-23:22:20-efef/blend-0eeb.json \
+--pretrained_checkpoints \
+/gpfsnyu/scratch/yw3642/hf-models/roberta-large \
+/gpfsnyu/scratch/yw3642/hf-models/facebook_muppet-roberta-large \
+--model_dirs \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-28-20:19:05-967e \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-28-23:22:20-efef
 echo "FINISH"                       
