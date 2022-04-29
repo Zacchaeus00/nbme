@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=pl-infer-0
+#SBATCH --job-name=blend-2
 #SBATCH --nodes=1                   
 #SBATCH --ntasks=1                  
 #SBATCH --cpus-per-task=8           
@@ -9,9 +9,8 @@
 #SBATCH --mail-user=yw3642@nyu.edu  
 #SBATCH --output=log/%x-%A.out
 #SBATCH --error=log/%x-%A.err
-#SBATCH --gres=gpu:1                
+#SBATCH --constraint=cpu # use this if you want to only use cpu
 #SBATCH -p aquila                   
-#SBATCH --nodelist=agpu7            
 
 module purge                        
 module load anaconda3 cuda/11.1.1              
@@ -23,6 +22,10 @@ cd /gpfsnyu/scratch/yw3642/nbme/src
 echo "START"               
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle          
-python -u pl_infer.py
-
+python -u blend.py --result_dirs \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-28-20:19:05-967e \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-28-23:22:20-efef \
+--n_trials 10
+#1. roberta-large
+#2. muppet-roberta-large
 echo "FINISH"                       
