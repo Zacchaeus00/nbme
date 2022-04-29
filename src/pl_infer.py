@@ -24,7 +24,8 @@ cfg = parse_args_pl_infer()
 pl_df = pd.read_pickle(cfg.data_path)
 blend_log = json.load(open(cfg.blend_log, 'r'))
 pprint(vars(cfg))
-print('blend log:', blend_log)
+print('blend log:')
+pprint(blend_log)
 assert set(blend_log['individual'].keys()) == set(cfg.model_dirs), "model dirs not match"
 
 pl_df['char_logits_blend'] = pl_df['pn_history'].apply(lambda x: np.zeros(len(x)))
