@@ -36,4 +36,5 @@ python -u pl_blend.py --blend_log /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-30-1
 #11. electra-large-discriminator
 #12. funnel-large
 #13. deberta-v3-base
+#14. roberta-large-mnli
 echo "FINISH"                       
