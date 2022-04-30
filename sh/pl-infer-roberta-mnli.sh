@@ -26,5 +26,5 @@ source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle
 python -u pl_infer.py \
 --pretrained_checkpoint /gpfsnyu/scratch/yw3642/hf-models/roberta-large-mnli \
 --model_dir /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-30-11:54:28-624d \
---batch_size 8
+--batch_size 16
 echo "FINISH"                       
