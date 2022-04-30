@@ -46,7 +46,7 @@ def get_uid():
 
 
 def check_if_fix_offsets(checkpoint):
-    do_fix_offsets_names = ['electra', 'ernie', 'albert', 'funnel']
+    do_fix_offsets_names = ['electra', 'ernie', 'albert', 'funnel', 'mpnet']
     for name in do_fix_offsets_names:
         if name in checkpoint:
             return True
