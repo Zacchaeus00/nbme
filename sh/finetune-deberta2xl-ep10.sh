@@ -24,5 +24,5 @@ echo "START"
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle          
 python -u train.py --pretrained_checkpoint /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-26-22:27:04-0a68/checkpoint-189657 \
---epochs 10 --batch_size 2 --accumulation_steps 4 --lr 5e-6 --weight_decay 0.0 --seed 50
+--epochs 12 --batch_size 2 --accumulation_steps 2 --lr 3e-6 --weight_decay 0.0 --seed 50
 echo "FINISH"                       
