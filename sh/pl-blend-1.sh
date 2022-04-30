@@ -22,7 +22,7 @@ cd /gpfsnyu/scratch/yw3642/nbme/src
 echo "START"               
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle          
-python -u pl_blend.py --blend_log /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-30-01:20:45-ca14/blend-b7ce.json
+python -u pl_blend.py --blend_log /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-30-11:54:28-624d/blend-3a81.json
 #1. roberta-large
 #2. muppet-roberta-large
 #3. roberta-base
