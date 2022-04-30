@@ -31,5 +31,5 @@ python -u pl_train.py \
 --accumulation_steps 1 \
 --lr 1e-5 \
 --weight_decay 0.0 \
---seed 0 \
+--seed 0
 echo "FINISH"                       
