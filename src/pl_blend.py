@@ -24,10 +24,8 @@ for model_dir, w in tqdm(blend_log['weights'].items()):
     df = pl_df.merge(pd.DataFrame({'id': list(char_logits.keys()), 'char_logits': list(char_logits.values())}),
                      on='id',
                      how='left')
-    char_logits = df.char_logits.values
-    char_logits = [w * char_logits_ for char_logits_ in char_logits]
     for i in range(len(pl_df)):
-        char_logits_blend[i] += char_logits[i]
+        char_logits_blend[i] += df.loc[i, 'char_logits'] * w
 del df, char_logits
 gc.collect()
 
