@@ -45,6 +45,8 @@ def parse_args_pretrain():
     arg('--weight_decay', type=float, default=0.0)
     arg('--mlm_prob', type=float, default=0.2)
     arg('--seed', type=int, default=42)
+    arg('--resume', type=int, default='')
+    arg('--save_total_limit', type=int, default=2)
     return parser.parse_args()
 
 def parse_args_blend():

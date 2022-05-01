@@ -24,5 +24,6 @@ echo "START"
 source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle          
 python -u pretrain.py --pretrained_checkpoint /gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-xlarge --epochs 10 \
---batch_size 2 --accumulation_steps 1 --lr 1e-5 --weight_decay 0.0 --mlm_prob 0.2 --seed 3296
+--batch_size 2 --accumulation_steps 1 --lr 1e-5 --weight_decay 0.0 --mlm_prob 0.2 --seed 3296 \
+--resume /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-02:28:41-4c32/checkpoint-84292 --save_total_limit -1
 echo "FINISH"                       
