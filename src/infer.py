@@ -65,4 +65,4 @@ test_df['location'] = results
 sub = pd.read_csv("../input/nbme-score-clinical-patient-notes/sample_submission.csv")
 sub = sub[['id']].merge(test_df[['id', "location"]], how="left", on="id")
 runtime = time.time()-s0
-print(f'total runtime {runtime}s, estimate submission runtime {2*5*runtime/cfg.portion}s')
+print(f'total runtime {runtime/3600} hrs, estimate submission runtime {2*5*runtime/cfg.portion/3600} hrs')
