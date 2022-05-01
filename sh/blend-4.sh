@@ -32,7 +32,7 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-20:38:10-0673 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-14:53:42-136a \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-14:53:42-e7c0 \
---n_trials 1000 \
+--n_trials 5000 \
 --n_jobs 1
 #pl-b7ce
 #1. roberta-large
