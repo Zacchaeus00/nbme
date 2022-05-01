@@ -82,4 +82,8 @@ for i, spans_ in enumerate(spans):
         annos.append(text[s:e])
     annotations.append(annos)
 train['pred_annotation'] = annotations
+train.drop('location_for_create_labels', axis=1, inplace=True)
+for i, _ in enumerate(cfg.result_dirs):
+    train.drop(f'char_logits{i}', axis=1, inplace=True)
+    train.drop(f'prediction{i}', axis=1, inplace=True)
 train.to_pickle(os.path.join(cfg.out_dir, f'blend-{uid}-oof.pkl'))
