@@ -21,9 +21,9 @@ cfg = parse_args_infer()
 WEIGHTS = {f'w{i}': 1 for i in range(len(cfg.pretrained_checkpoints))}
 FIXOFFS = [False for _ in range(len(cfg.pretrained_checkpoints))]
 
-test_df = pd.read_csv(os.path.join(cfg.data_path, 'train.csv'))
-features = preprocess_features(pd.read_csv(os.path.join(cfg.data_path, 'features.csv')))
-pn = pd.read_csv(os.path.join(cfg.data_path, 'patient_notes.csv'))
+test_df = pd.read_csv(os.path.join(cfg.data_dir, 'train.csv'))
+features = preprocess_features(pd.read_csv(os.path.join(cfg.data_dir, 'features.csv')))
+pn = pd.read_csv(os.path.join(cfg.data_dir, 'patient_notes.csv'))
 test_df = test_df.merge(pn, on='pn_num', how='left')
 test_df = test_df.merge(features, on='feature_num', how='left')
 test_df['len'] = test_df['pn_history'].apply(len) + test_df['feature_text'].apply(len)
