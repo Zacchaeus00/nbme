@@ -56,8 +56,30 @@ log['blend'] = study.best_trial.values[0]
 for i, res_dir in enumerate(cfg.result_dirs):
     log['weights'][res_dir] = study.best_params[f'w{i}']
 uid = get_uid()
-name = f'blend-{uid}.json'
 print('uid:', uid)
 for res_dir in cfg.result_dirs:
     log['self'] = res_dir
-    save_json(log, os.path.join(res_dir, name))
+    save_json(log, os.path.join(res_dir, f'blend-{uid}.json'))
+save_json(log, os.path.join(cfg.out_dir, f'blend-{uid}.json'))
+
+n = len(cfg.result_dirs)
+weights = np.ones(n)
+for i in range(n):
+    weights[i] = study.best_params[f'w{i}']
+char_logits_blend = []
+for i in range(len(train)):
+    logits = []
+    for j in range(len(cfg.result_dirs)):
+        logits.append(train.loc[i, f'char_logits{j}'])
+    char_logits_blend.append(np.average(logits, weights=weights, axis=0))
+spans = get_spans(char_logits_blend, train['pn_history'].tolist())
+train['spans'] = spans
+annotations = []
+for i, spans_ in enumerate(spans):
+    text = train.loc[i, 'pn_history']
+    annos = []
+    for s, e in spans_:
+        annos.append(text[s:e])
+    annotations.append(annos)
+train['annotation'] = annotations
+train.to_pickle(os.path.join(cfg.out_dir, f'blend-{uid}-oof.pkl'))
