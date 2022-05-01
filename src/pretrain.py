@@ -21,7 +21,7 @@ if not cfg.resume:
     print(f'resuming from {cfg.resume}')
     timenow = get_time()
 else:
-    timenow = [x for x in cfg.resume.split('/') if '2022-04' in x][0]
+    timenow = [x for x in cfg.resume.split('/') if '2022-' in x][0]
 seed_everything(cfg.seed)
 df = pd.read_csv(cfg.data_path)
 tokenizer = get_tokenizer(cfg.pretrained_checkpoint)
