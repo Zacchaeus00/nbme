@@ -2,7 +2,7 @@
 #SBATCH --job-name=blend-4
 #SBATCH --nodes=1                   
 #SBATCH --ntasks=1                  
-#SBATCH --cpus-per-task=32
+#SBATCH --cpus-per-task=4
 #SBATCH --mem=16GB                  
 #SBATCH --time=167:00:00
 #SBATCH --mail-type=END             
