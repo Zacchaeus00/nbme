@@ -54,4 +54,5 @@ python -u blend.py --result_dirs \
 #14. roberta-large-mnli
 #15. * deberta-v2-xlarge-mnli
 #16. * deberta-xlarge
+#17. * mpnet-base
 echo "FINISH"                       
