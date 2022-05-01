@@ -27,8 +27,9 @@ pn = pd.read_csv(os.path.join(cfg.data_dir, 'patient_notes.csv'))
 test_df = test_df.merge(pn, on='pn_num', how='left')
 test_df = test_df.merge(features, on='feature_num', how='left')
 test_df['len'] = test_df['pn_history'].apply(len) + test_df['feature_text'].apply(len)
-test_df = test_df.sort_values(by=['len']).reset_index(drop=True)
+test_df = test_df.sample(frac=1).reset_index(drop=True)
 test_df = test_df.loc[:int(cfg.portion*len(test_df)),:]
+test_df = test_df.sort_values(by=['len']).reset_index(drop=True)
 
 char_logits_blend = [np.zeros(len(text)) for text in test_df.pn_history.values]
 for i, ckpt in enumerate(cfg.pretrained_checkpoints):
