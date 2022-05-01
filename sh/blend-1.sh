@@ -52,4 +52,6 @@ python -u blend.py --result_dirs \
 #12. funnel-large
 #13. deberta-v3-base
 #14. roberta-large-mnli
+#15. * deberta-v2-xlarge-mnli
+#16. * deberta-xlarge
 echo "FINISH"                       
