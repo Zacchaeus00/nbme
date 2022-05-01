@@ -73,7 +73,7 @@ for i in range(len(train)):
         logits.append(train.loc[i, f'char_logits{j}'])
     char_logits_blend.append(np.average(logits, weights=weights, axis=0))
 spans = get_spans(char_logits_blend, train['pn_history'].tolist())
-train['spans'] = spans
+train['pred_spans'] = spans
 annotations = []
 for i, spans_ in enumerate(spans):
     text = train.loc[i, 'pn_history']
@@ -81,5 +81,5 @@ for i, spans_ in enumerate(spans):
     for s, e in spans_:
         annos.append(text[s:e])
     annotations.append(annos)
-train['annotation'] = annotations
+train['pred_annotation'] = annotations
 train.to_pickle(os.path.join(cfg.out_dir, f'blend-{uid}-oof.pkl'))
