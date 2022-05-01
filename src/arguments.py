@@ -19,7 +19,6 @@ def parse_args_infer():
     parser = argparse.ArgumentParser(description='')
     arg = parser.add_argument
     arg('--pretrained_checkpoints', nargs='+', required=True)
-    arg('--model_dirs', nargs='+', required=True)
     arg('--data_dir', type=str, default='../data/nbme-score-clinical-patient-notes/')
     arg('--batch_size', type=int, default=32)
     arg('--portion', type=float, default=1.0)
