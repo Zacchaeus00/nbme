@@ -30,6 +30,7 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-04:16:11-622e \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-06:09:31-d229 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-20:38:10-0673 \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-14:53:42-136a \
 --n_trials 1000 \
 --n_jobs 1
 #pl-b7ce
@@ -41,4 +42,5 @@ python -u blend.py --result_dirs \
 #5. roberta-base
 #6. bart-large-mnli
 #7. deberta-v3-base
+#8. ernie-large
 echo "FINISH"                       
