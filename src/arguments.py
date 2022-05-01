@@ -18,10 +18,10 @@ def parse_args_train():
 def parse_args_infer():
     parser = argparse.ArgumentParser(description='')
     arg = parser.add_argument
-    arg('--pretrained_checkpoint', type=str, default='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-base')
-    arg('--model_dir', type=str, required=True)
+    arg('--pretrained_checkpoints', nargs='+', required=True)
+    arg('--model_dirs', nargs='+', required=True)
     arg('--data_dir', type=str, default='../data/nbme-score-clinical-patient-notes/')
-    arg('--out_dir', type=str, default='../output/')
+    arg('--batch_size', type=int, default=32)
     return parser.parse_args()
 
 

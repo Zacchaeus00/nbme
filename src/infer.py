@@ -1,55 +1,68 @@
 import os
+import time
+s0 = time.time()
 
 import numpy as np
 import pandas as pd
 import torch
-from transformers import TrainingArguments, Trainer
-from transformers import DataCollatorForTokenClassification
-
-from data_utils import NBMEDatasetInfer, preprocess_features
-from model_utils import NBMEModel
-from eval_utils import get_char_logits
-from arguments import parse_args_infer
-from utils import get_tokenizer, save_pickle
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
 from tqdm import tqdm
+from transformers import AutoTokenizer, DataCollatorForTokenClassification
+
+from arguments import parse_args_infer
+from data_utils import NBMEDatasetInfer, preprocess_features
+from eval_utils import get_char_logits, my_get_results
+from model_utils import NBMEModel
+
+torch.set_grad_enabled(False)
 
 cfg = parse_args_infer()
-test = pd.read_csv(os.path.join(cfg.data_dir, 'test.csv'))
-features = preprocess_features(pd.read_csv(os.path.join(cfg.data_dir, 'features.csv')))
-patient_notes = pd.read_csv(os.path.join(cfg.data_dir, 'patient_notes.csv'))
-test = test.merge(features, on=['feature_num', 'case_num'], how='left')
-test = test.merge(patient_notes, on=['pn_num', 'case_num'], how='left')
+WEIGHTS = {f'w{i}': 1 for i in range(len(cfg.model_dirs))}
+FIXOFFS = [False for _ in range(len(cfg.model_dirs))]
 
-tokenizer = get_tokenizer(cfg.pretrained_checkpoint)
-model = NBMEModel(cfg.pretrained_checkpoint)
-test_dataset = NBMEDatasetInfer(tokenizer, test)
-print(f'{len(test)} rows')
-print(vars(cfg))
+test_df = pd.read_csv(os.path.join(cfg.data_path, 'train.csv'))
+features = preprocess_features(pd.read_csv(os.path.join(cfg.data_path, 'features.csv')))
+pn = pd.read_csv(os.path.join(cfg.data_path, 'patient_notes.csv'))
+test_df = test_df.merge(pn, on='pn_num', how='left')
+test_df = test_df.merge(features, on='feature_num', how='left')
+test_df['len'] = test_df['pn_history'].apply(len) + test_df['feature_text'].apply(len)
+test_df = test_df.sort_values(by=['len']).reset_index(drop=True)
 
-test_preds = []
-for fold in range(5):
-    model.load_state_dict(torch.load(os.path.join(cfg.model_dir, f'{fold}.pt')))
-    args = TrainingArguments(
-        output_dir=f".",
-        do_train=False,
-        group_by_length=True,
-    )
-    trainer = Trainer(
-        model,
-        args,
-        tokenizer=tokenizer,
-        data_collator=DataCollatorForTokenClassification(tokenizer),
-    )
-    predictions = trainer.predict(test_dataset).predictions  # [n, maxlen, 1]
-    predictions = predictions.reshape(len(test), -1)
-    char_logits = get_char_logits(test['pn_history'].values, predictions, tokenizer)
-    test_preds.append(char_logits)
+char_logits_blend = [np.zeros(len(text)) for text in test_df.pn_history.values]
+for i, ckpt in enumerate(cfg.pretrained_checkpoints):
+    s = time.time()
+    model_path = cfg.model_dirs[i]
+    w = WEIGHTS[f'w{i}']
+    print(f'{model_path} - weight = {w}')
+    tokenizer = AutoTokenizer.from_pretrained(ckpt, trim_offsets=False)
+    test_dataset = NBMEDatasetInfer(tokenizer, test_df)
+    maxlen = max([len(x['input_ids']) for x in test_dataset])
+    test_dataloader = DataLoader(test_dataset, batch_size=cfg.batch_size, shuffle=False,
+                                 collate_fn=DataCollatorForTokenClassification(tokenizer))
+    model = NBMEModel(ckpt).cuda()
+    preds_folds = []
+    for fold in range(1):
+        model.load_state_dict(torch.load(os.path.join(model_path, f'{fold}.pt')))
+        model.eval()
+        preds = []
+        for b in tqdm(test_dataloader, total=len(test_dataset) // cfg.batch_size + 1):
+            b = {k: v.cuda() for k, v in b.items()}
+            pred = model(**b).logits.squeeze()  # [bs, maxlen, 1]
+            pred = F.pad(input=pred, pad=(0, maxlen - pred.shape[1]), mode='constant', value=-100).cpu().numpy()
+            preds.append(pred)
+        preds = np.concatenate(preds, axis=0)  # [n, maxlen]
+        preds_folds.append(preds)
+    preds_folds = np.stack(preds_folds)
+    preds = np.mean(preds_folds, axis=0)
+    char_logits = get_char_logits(test_df['pn_history'].values, preds, tokenizer, do_fix_offsets=FIXOFFS[i])
+    for j in range(len(test_df)):
+        char_logits_blend[j] += w * char_logits[j]
+    print(f'{i} {ckpt} runtime {time.time()-s}s')
 
-blended_preds = {}
-for i in tqdm(range(len(test))):
-    thispred = np.array([test_preds[j][i] for j in range(5)])
-    assert thispred.shape[1] == test.loc[i, 'pn_history'], f"index {i}: logit shape {thispred.shape}, but text len {test.loc[i, 'pn_history']}"
-    blended_preds[test.loc[i, 'id']] = np.mean(thispred, axis=0)
-
-name = cfg.model_dir.split('/')[-1]
-save_pickle(blended_preds, os.path.join(cfg.out_dir, f'{name}.pkl'))
+results = my_get_results(char_logits_blend, test_df.pn_history.values)
+test_df['location'] = results
+sub = pd.read_csv("../input/nbme-score-clinical-patient-notes/sample_submission.csv")
+sub = sub[['id']].merge(test_df[['id', "location"]], how="left", on="id")
+runtime = time.time()-s
+print(f'total runtime {runtime}s, estimate submission runtime {2*5*runtime}s')
