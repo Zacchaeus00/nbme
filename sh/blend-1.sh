@@ -55,4 +55,5 @@ python -u blend.py --result_dirs \
 #15. * deberta-v2-xlarge-mnli
 #16. * deberta-xlarge
 #17. * mpnet-base
+#18. * deberta-v2-xlarge
 echo "FINISH"                       
