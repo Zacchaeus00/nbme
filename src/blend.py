@@ -48,7 +48,7 @@ def objective(trial):
 
 
 study = optuna.create_study(direction='maximize')
-study.optimize(objective, n_trials=cfg.n_trials)
+study.optimize(objective, n_trials=cfg.n_trials, n_jobs=cfg.n_jobs)
 print('best blend weights:', study.best_params)
 print('best blend score:', study.best_trial.values[0])
 

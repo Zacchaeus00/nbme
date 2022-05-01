@@ -56,6 +56,7 @@ def parse_args_blend():
     arg('--data_path', type=str, default='../data/train_processed.pkl')
     arg('--n_trials', type=int, default=100)
     arg('--out_dir', type=str, default='../data/')
+    arg('--n_jobs', type=int, default=1)
     return parser.parse_args()
 
 

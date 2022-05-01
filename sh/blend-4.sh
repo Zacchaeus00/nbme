@@ -2,7 +2,7 @@
 #SBATCH --job-name=blend-4
 #SBATCH --nodes=1                   
 #SBATCH --ntasks=1                  
-#SBATCH --cpus-per-task=8           
+#SBATCH --cpus-per-task=32
 #SBATCH --mem=16GB                  
 #SBATCH --time=167:00:00
 #SBATCH --mail-type=END             
@@ -30,7 +30,8 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-04:16:11-622e \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-06:09:31-d229 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-20:38:10-0673 \
---n_trials 1000
+--n_trials 1000 \
+--n_jobs 32
 #pl-b7ce
 #1. roberta-large
 #2. muppet-roberta-large
