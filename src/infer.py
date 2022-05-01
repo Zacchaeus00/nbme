@@ -18,8 +18,8 @@ from model_utils import NBMEModel
 torch.set_grad_enabled(False)
 
 cfg = parse_args_infer()
-WEIGHTS = {f'w{i}': 1 for i in range(len(cfg.model_dirs))}
-FIXOFFS = [False for _ in range(len(cfg.model_dirs))]
+WEIGHTS = {f'w{i}': 1 for i in range(len(cfg.pretrained_checkpoints))}
+FIXOFFS = [False for _ in range(len(cfg.pretrained_checkpoints))]
 
 test_df = pd.read_csv(os.path.join(cfg.data_path, 'train.csv'))
 features = preprocess_features(pd.read_csv(os.path.join(cfg.data_path, 'features.csv')))
@@ -32,9 +32,8 @@ test_df = test_df.sort_values(by=['len']).reset_index(drop=True)
 char_logits_blend = [np.zeros(len(text)) for text in test_df.pn_history.values]
 for i, ckpt in enumerate(cfg.pretrained_checkpoints):
     s = time.time()
-    model_path = cfg.model_dirs[i]
     w = WEIGHTS[f'w{i}']
-    print(f'{model_path} - weight = {w}')
+    print(f'{i} {ckpt}')
     tokenizer = AutoTokenizer.from_pretrained(ckpt, trim_offsets=False)
     test_dataset = NBMEDatasetInfer(tokenizer, test_df)
     maxlen = max([len(x['input_ids']) for x in test_dataset])
@@ -43,7 +42,6 @@ for i, ckpt in enumerate(cfg.pretrained_checkpoints):
     model = NBMEModel(ckpt).cuda()
     preds_folds = []
     for fold in range(1):
-        model.load_state_dict(torch.load(os.path.join(model_path, f'{fold}.pt')))
         model.eval()
         preds = []
         for b in tqdm(test_dataloader, total=len(test_dataset) // cfg.batch_size + 1):
@@ -64,5 +62,5 @@ results = my_get_results(char_logits_blend, test_df.pn_history.values)
 test_df['location'] = results
 sub = pd.read_csv("../input/nbme-score-clinical-patient-notes/sample_submission.csv")
 sub = sub[['id']].merge(test_df[['id', "location"]], how="left", on="id")
-runtime = time.time()-s
+runtime = time.time()-s0
 print(f'total runtime {runtime}s, estimate submission runtime {2*5*runtime}s')
