@@ -29,7 +29,11 @@ print(vars(cfg))
 
 scores = []
 oof_preds = {}
-for fold in range(5):
+if cfg.fold == -1:
+    s, e = 0, 6
+else:
+    s, e = cfg.fold, cfg.fold+1
+for fold in range(s,e):
     train_df = df[df['fold'] != fold].reset_index(drop=True)
     val_df = df[df['fold'] == fold].reset_index(drop=True)
     name = f"{timenow}_fold{fold}"

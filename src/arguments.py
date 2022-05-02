@@ -13,6 +13,7 @@ def parse_args_train():
     arg('--weight_decay', type=float, default=0.01)
     arg('--seed', type=int, default=42)
     arg("--do_fix_offsets", default=False, action="store_true", help="fix offsets (force trim_offsets=False)")
+    arg("--fold", default=-1, type=int)
     return parser.parse_args()
 
 def parse_args_infer():
