@@ -29,7 +29,6 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-14:53:42-e7c0 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-12:45:14-3b86 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-13:11:10-5a15 \
-
 --n_trials 2000 \
 --n_jobs 1
 #pl-b7ce
