@@ -11,7 +11,7 @@
 #SBATCH --error=log/%x-%A.err
 #SBATCH --gres=gpu:1                
 #SBATCH -p aquila                   
-#SBATCH --nodelist=agpu8
+#SBATCH --nodelist=agpu7
 
 module purge                        
 module load anaconda3 cuda/11.1.1              
