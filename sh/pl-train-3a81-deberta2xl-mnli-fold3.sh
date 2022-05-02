@@ -29,7 +29,7 @@ python -u pl_train.py \
 --epochs 1 \
 --batch_size 2 \
 --accumulation_steps 1 \
---lr 5e-6 \
+--lr 3e-6 \
 --weight_decay 0.0 \
 --seed 115 \
 --fold 3
