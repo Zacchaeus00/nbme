@@ -82,28 +82,35 @@ class NBMEDataset(Dataset):
         return {**inputs, 'label': label}
 
 class NBMEDatasetInfer(Dataset):
-    def __init__(self, tokenizer, df, cuda=False):
+    def __init__(self, tokenizer, df, cuda=False, cache=True):
         self.tokenizer = tokenizer
         self.feature_texts = df['feature_text'].values
         self.pn_historys = df['pn_history'].values
         self.cuda = cuda
+        self.cache = cache
 
         # cache __get__ for faster training
-        self.inputs_cache = []
-        for item in range(len(df)):
-            inputs = prepare_input(self.tokenizer,
-                                   self.pn_historys[item],
-                                   self.feature_texts[item])
-            if self.cuda:
-                self.inputs_cache.append({k: v.cuda() for k,v in inputs.items()})
-            else:
-                self.inputs_cache.append(inputs)
+        if self.cache:
+            self.inputs_cache = []
+            for item in range(len(df)):
+                inputs = prepare_input(self.tokenizer,
+                                       self.pn_historys[item],
+                                       self.feature_texts[item])
+                if self.cuda:
+                    self.inputs_cache.append({k: v.cuda() for k,v in inputs.items()})
+                else:
+                    self.inputs_cache.append(inputs)
 
     def __len__(self):
         return len(self.feature_texts)
 
     def __getitem__(self, item):
-        inputs = self.inputs_cache[item]
+        if self.cache:
+            inputs = self.inputs_cache[item]
+        else:
+            inputs = prepare_input(self.tokenizer,
+                                   self.pn_historys[item],
+                                   self.feature_texts[item])
         return inputs
 
 

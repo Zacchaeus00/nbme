@@ -23,6 +23,8 @@ def parse_args_infer():
     arg('--data_dir', type=str, default='../data/nbme-score-clinical-patient-notes/')
     arg('--batch_size', type=int, default=32)
     arg('--portion', type=float, default=1.0)
+    arg("--pin_memory", default=False, action="store_true")
+    arg("--cache", default=False, action="store_true")
     return parser.parse_args()
 
 

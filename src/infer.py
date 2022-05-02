@@ -37,10 +37,10 @@ for i, ckpt in enumerate(cfg.pretrained_checkpoints):
     w = WEIGHTS[f'w{i}']
     print(f'{i} {ckpt}')
     tokenizer = AutoTokenizer.from_pretrained(ckpt, trim_offsets=False)
-    test_dataset = NBMEDatasetInfer(tokenizer, test_df)
+    test_dataset = NBMEDatasetInfer(tokenizer, test_df, cache=cfg.cache)
     maxlen = max([len(x['input_ids']) for x in test_dataset])
     test_dataloader = DataLoader(test_dataset, batch_size=cfg.batch_size, shuffle=False,
-                                 collate_fn=DataCollatorForTokenClassification(tokenizer))
+                                 collate_fn=DataCollatorForTokenClassification(tokenizer), pin_memory=cfg.pin_memory)
     model = NBMEModel(ckpt).cuda()
     preds_folds = []
     for fold in range(1):
