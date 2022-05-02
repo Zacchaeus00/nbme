@@ -32,8 +32,9 @@ def parse_args_eval():
     parser = argparse.ArgumentParser(description='')
     arg = parser.add_argument
     arg('--data_path', type=str, default='../data/train_processed.pkl')
-    arg('--pretrained_checkpoint', type=str, default='/gpfsnyu/scratch/yw3642/hf-models/microsoft_deberta-base')
+    arg('--pretrained_checkpoint', type=str, required=True)
     arg('--model_dir', type=str, required=True)
+    arg("--do_fix_offsets", default=False, action="store_true", help="fix offsets (force trim_offsets=False)")
     return parser.parse_args()
 
 def parse_args_pretrain():
