@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=blend-4
+#SBATCH --job-name=blend-pl-all
 #SBATCH --nodes=1                   
 #SBATCH --ntasks=1                  
 #SBATCH --cpus-per-task=4
@@ -32,17 +32,27 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-20:38:10-0673 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-14:53:42-136a \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-14:53:42-e7c0 \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-15:49:03-f7f8 \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-12:43:23-edad \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-12:45:14-3b86 \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-13:11:10-5a15 \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-18:41:00-f514 \
 --n_trials 5000 \
 --n_jobs 1
 #pl-b7ce
-#1. roberta-large
-#2. muppet-roberta-large
+#1. roberta-large 8912
+#2. muppet-roberta-large 8910
 #pl-3a81
-#3. bart-large
-#4. deberta-base
-#5. roberta-base
-#6. bart-large-mnli
-#7. deberta-v3-base
-#8. ernie-large
-#9. electra-large
+#3. bart-large 8893
+#4. deberta-base 8911
+#5. roberta-base 8872
+#6. bart-large-mnli 8901
+#7. deberta-v3-base 8895
+#8. ernie-large 8916
+#9. electra-large 8917
+#10. roberta-large-mnli 8911
+#11. deberta-large 8930
+#12. deberta-large-mnli 8927
+#13. deberta-v3-large 8928
+#14. funnel-large 8896
 echo "FINISH"                       
