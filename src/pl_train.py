@@ -32,7 +32,7 @@ print(vars(cfg))
 scores = []
 oof_preds = {}
 if cfg.fold == -1:
-    s, e = 0, 6
+    s, e = 0, 5
 else:
     s, e = cfg.fold, cfg.fold+1
 for fold in range(s, e):
