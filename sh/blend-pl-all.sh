@@ -37,6 +37,9 @@ python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-12:45:14-3b86 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-13:11:10-5a15 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-18:41:00-f514 \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-23:06:10-147b \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-02-00:57:31-6812 \
+/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-04-30-00:28:29-93e0 \
 --n_trials 5000 \
 --n_jobs 1
 #pl-b7ce
@@ -55,4 +58,8 @@ python -u blend.py --result_dirs \
 #12. deberta-large-mnli 8927
 #13. deberta-v3-large 8928
 #14. funnel-large 8896
+#15. deberta-xlarge
+#16. deberta-v2-xlarge-mnli
+#finetune
+#17. deberta-v2-xlarge-mnli
 echo "FINISH"                       
