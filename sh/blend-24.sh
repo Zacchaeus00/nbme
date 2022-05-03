@@ -24,17 +24,13 @@ source deactivate
 source /gpfsnyu/packages/anaconda3/5.2.0/bin/activate kaggle          
 python -u blend.py --result_dirs \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-04:18:24-7816 \
-/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-14:53:42-e7c0 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-12:45:14-3b86 \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-13:11:10-5a15 \
-/gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-01-23:06:10-147b \
 /gpfsnyu/scratch/yw3642/nbme/ckpt/2022-05-02-00:57:31-6812 \
---n_trials 2000 \
+--n_trials 1000 \
 --n_jobs 1
 #4. deberta-base 8911
-#9. electra-large 8917
 #12. deberta-large-mnli 8927
 #13. deberta-v3-large 8928
-#15. deberta-xlarge
 #16. deberta-v2-xlarge-mnli
 echo "FINISH"                       
