@@ -1,1 +1,1 @@
-This is the source code of my attempt on the  [NBME - Score Clinical Patient Notes](https://www.kaggle.com/c/nbme-score-clinical-patient-notes) competition on Kaggle. I worked alone and am fortunate to rank 11/1500 in the final evaluation.
+This is the source code of my attempt on the  [NBME - Score Clinical Patient Notes](https://www.kaggle.com/c/nbme-score-clinical-patient-notes) competition on Kaggle. I worked alone and was fortunate to rank 11/1500 in the final evaluation.
